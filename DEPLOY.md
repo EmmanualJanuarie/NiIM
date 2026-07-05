@@ -1,37 +1,36 @@
-# NiIM Hosting: Render
+# NiIM Hosting: Netlify + Supabase
 
-NiIM is ready to host on Render as one Node web service. Render will run the backend, serve the built React app, and store the one-device login database on a persistent disk.
+NiIM is ready to host on Netlify. Netlify serves the React app and runs serverless functions for `/api/*`. Supabase stores the one-device lock, authenticator secret, and auth events.
 
-## Recommended Render Setup
+## 1. Create Supabase Database
 
-Use the included `render.yaml` blueprint, or create the service manually.
+1. Create a free Supabase project.
+2. Open SQL Editor.
+3. Run the SQL in `supabase-schema.sql`.
+4. Copy these from Project Settings > API:
+   - Project URL
+   - `service_role` key
 
-### Manual Settings
+Keep the service role key private. It belongs only in Netlify environment variables.
 
-- Service type: Web Service
-- Runtime: Node
-- Build command: `pnpm install && pnpm run build`
-- Start command: `pnpm start`
-- Health check path: `/health`
+## 2. Deploy to Netlify
 
-### Environment Variables
-
-- `NIIM_DATA_DIR=/var/data`
-
-### Persistent Disk
-
-Add a persistent disk:
-
-```text
-Mount path: /var/data
-Size: 1 GB
-```
-
-This is where NiIM stores the one-device lock, authenticator secret, and auth events. Without the disk, your lock could reset after deploys.
+1. Push this repo to GitHub.
+2. In Netlify, choose Add new site > Import an existing project.
+3. Select the NiIM repo.
+4. Netlify should read `netlify.toml`.
+5. Confirm:
+   - Build command: `pnpm run build`
+   - Publish directory: `dist`
+   - Functions directory: `netlify/functions`
+6. Add environment variables:
+   - `SUPABASE_URL=your Supabase project URL`
+   - `SUPABASE_SERVICE_ROLE_KEY=your Supabase service_role key`
+7. Deploy.
 
 ## First Login
 
-The first phone/browser to open the deployed Render URL registers itself. NiIM then shows the authenticator setup key. After that, other devices are blocked even if they know the authenticator code.
+The first phone/browser to open the deployed Netlify URL registers itself. NiIM then shows the authenticator setup key. After that, other devices are blocked even if they know the authenticator code.
 
 ## Local Development
 
