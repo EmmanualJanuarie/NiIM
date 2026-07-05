@@ -13,6 +13,22 @@ create table if not exists public.niim_authorized_users (
 alter table public.niim_events enable row level security;
 alter table public.niim_authorized_users enable row level security;
 
+drop policy if exists "service role can manage niim events" on public.niim_events;
+create policy "service role can manage niim events"
+on public.niim_events
+for all
+to service_role
+using (true)
+with check (true);
+
+drop policy if exists "service role can manage authorized users" on public.niim_authorized_users;
+create policy "service role can manage authorized users"
+on public.niim_authorized_users
+for all
+to service_role
+using (true)
+with check (true);
+
 -- Add your approved login email after creating the Supabase Auth user.
 -- Example:
 -- insert into public.niim_authorized_users (email)
