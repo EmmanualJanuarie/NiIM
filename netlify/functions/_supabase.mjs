@@ -16,25 +16,22 @@ function getSupabase() {
   });
 }
 
-export async function getAuthRow() {
+export async function getUserFromAccessToken(accessToken) {
   const supabase = getSupabase();
-  const { data, error } = await supabase.from("niim_auth").select("*").eq("id", "main").maybeSingle();
+  const { data, error } = await supabase.auth.getUser(accessToken);
   if (error) throw error;
-  return data;
+  return data.user;
 }
 
-export async function createAuthRow(deviceId, secret) {
+export async function isAuthorizedEmail(email) {
   const supabase = getSupabase();
   const { data, error } = await supabase
-    .from("niim_auth")
-    .insert({ id: "main", device_id: deviceId, secret })
-    .select("*")
-    .single();
-  if (error) {
-    if (error.code === "23505") return getAuthRow();
-    throw error;
-  }
-  return data;
+    .from("niim_authorized_users")
+    .select("email")
+    .eq("email", String(email ?? "").toLowerCase())
+    .maybeSingle();
+  if (error) throw error;
+  return Boolean(data);
 }
 
 export async function recordEvent(type, deviceId) {
@@ -43,8 +40,4 @@ export async function recordEvent(type, deviceId) {
     type,
     device_id: String(deviceId ?? "").slice(0, 120),
   });
-}
-
-export function setupUri(secret) {
-  return `otpauth://totp/NiIM:Emmanuel?secret=${secret}&issuer=NiIM&period=30&digits=6`;
 }

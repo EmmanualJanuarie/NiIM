@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createClient } from "@supabase/supabase-js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..");
@@ -75,6 +76,34 @@ function verifyTotp(secret, code) {
     const expected = Buffer.from(generateTotp(secret, timestep + offset));
     return expected.length === received.length && timingSafeEqual(expected, received);
   });
+}
+
+function getSupabase() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.");
+  return createClient(url, key, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}
+
+async function authorizeSupabaseUser(accessToken) {
+  const supabase = getSupabase();
+  const { data, error } = await supabase.auth.getUser(accessToken);
+  if (error) throw error;
+  const email = data.user?.email?.toLowerCase();
+  if (!email) return { ok: false, status: 401, message: "Supabase user does not have an email." };
+  const { data: allowed, error: allowedError } = await supabase
+    .from("niim_authorized_users")
+    .select("email")
+    .eq("email", email)
+    .maybeSingle();
+  if (allowedError) throw allowedError;
+  if (!allowed) return { ok: false, status: 403, message: "This email is not authorized for NiIM.", email };
+  return { ok: true, status: 200, email };
 }
 
 function sendJson(res, status, body) {
@@ -155,6 +184,19 @@ const server = createServer(async (req, res) => {
         registered,
         thisDevice: registered && db.auth.deviceId === deviceId,
       });
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/auth/authorize") {
+      const { accessToken } = await readBody(req);
+      if (!accessToken) {
+        sendJson(res, 400, { ok: false, message: "Missing Supabase access token." });
+        return;
+      }
+      const result = await authorizeSupabaseUser(accessToken);
+      recordEvent(db, result.ok ? "email-login" : "blocked-email-login", result.email ?? "");
+      writeDb(db);
+      sendJson(res, result.status, result.ok ? { ok: true, email: result.email } : { ok: false, message: result.message });
       return;
     }
 

@@ -1,14 +1,24 @@
 # NiIM Hosting: Netlify + Supabase
 
-NiIM is ready to host on Netlify. Netlify serves the React app and runs serverless functions for `/api/*`. Supabase stores the one-device lock, authenticator secret, and auth events.
+NiIM is ready to host on Netlify. Netlify serves the React app and runs serverless functions for `/api/*`. Supabase handles email/password login and stores the approved-user allow-list.
 
 ## 1. Create Supabase Database
 
 1. Create a free Supabase project.
 2. Open SQL Editor.
 3. Run the SQL in `supabase-schema.sql`.
-4. Copy these from Project Settings > API:
+4. In Authentication > Users, create your user with email and password.
+5. In SQL Editor, authorize that email:
+
+```sql
+insert into public.niim_authorized_users (email)
+values ('your-email@example.com')
+on conflict (email) do nothing;
+```
+
+6. Copy these from Project Settings > API:
    - Project URL
+   - `anon public` key
    - `service_role` key
 
 Keep the service role key private. It belongs only in Netlify environment variables.
@@ -26,11 +36,13 @@ Keep the service role key private. It belongs only in Netlify environment variab
 6. Add environment variables:
    - `SUPABASE_URL=your Supabase project URL`
    - `SUPABASE_SERVICE_ROLE_KEY=your Supabase service_role key`
+   - `VITE_SUPABASE_URL=your Supabase project URL`
+   - `VITE_SUPABASE_ANON_KEY=your Supabase anon public key`
 7. Deploy.
 
 ## First Login
 
-The first phone/browser to open the deployed Netlify URL registers itself. NiIM then shows the authenticator setup key. After that, other devices are blocked even if they know the authenticator code.
+Open the deployed Netlify URL and sign in with the Supabase Auth email/password you created. NiIM then checks `niim_authorized_users`. If the email is not listed there, login is blocked.
 
 ## Local Development
 

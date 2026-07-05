@@ -121,6 +121,11 @@ button {
   letter-spacing: 0.18em;
 }
 
+.textInput input {
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
 .authError {
   color: #050505 !important;
   font-weight: 800;

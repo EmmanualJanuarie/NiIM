@@ -8,7 +8,6 @@ import {
   Flame,
   HeartPulse,
   Home,
-  KeyRound,
   Lock,
   LogOut,
   RotateCcw,
@@ -20,6 +19,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 type Tab = "today" | "program" | "food" | "calendar" | "motivate";
 type Exercise = {
@@ -398,19 +398,12 @@ const dayKeys = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday
 const trainingDays = new Set(sessions.map((session) => session.key));
 const dbName = "niim-training-db";
 const dbVersion = 1;
-const base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 const apiBase =
   import.meta.env.VITE_API_URL ??
   (location.hostname === "127.0.0.1" || location.hostname === "localhost" ? "http://127.0.0.1:8787" : "/api");
-
-function getDeviceId() {
-  const key = "niim:device-id";
-  const existing = localStorage.getItem(key);
-  if (existing) return existing;
-  const next = crypto.randomUUID();
-  localStorage.setItem(key, next);
-  return next;
-}
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY ?? "";
+const supabaseBrowser = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 async function apiPost<T>(path: string, body: Record<string, unknown>) {
   const response = await fetch(`${apiBase}${path}`, {
@@ -457,44 +450,6 @@ async function dbSet<T>(key: string, value: T) {
     };
     tx.onerror = () => reject(tx.error);
   });
-}
-
-function randomBase32Secret() {
-  const bytes = crypto.getRandomValues(new Uint8Array(20));
-  let bits = "";
-  bytes.forEach((byte) => {
-    bits += byte.toString(2).padStart(8, "0");
-  });
-  return bits.match(/.{1,5}/g)?.map((chunk) => base32Alphabet[parseInt(chunk.padEnd(5, "0"), 2)]).join("") ?? "";
-}
-
-function decodeBase32(secret: string) {
-  const cleaned = secret.replace(/=+$/g, "").replace(/\s/g, "").toUpperCase();
-  let bits = "";
-  for (const char of cleaned) {
-    const value = base32Alphabet.indexOf(char);
-    if (value >= 0) bits += value.toString(2).padStart(5, "0");
-  }
-  const bytes = bits.match(/.{1,8}/g)?.filter((chunk) => chunk.length === 8).map((chunk) => parseInt(chunk, 2)) ?? [];
-  return new Uint8Array(bytes);
-}
-
-async function generateTotp(secret: string, timestep = Math.floor(Date.now() / 30000)) {
-  const key = await crypto.subtle.importKey("raw", decodeBase32(secret), { name: "HMAC", hash: "SHA-1" }, false, ["sign"]);
-  const counter = new ArrayBuffer(8);
-  const view = new DataView(counter);
-  view.setUint32(4, timestep);
-  const hash = new Uint8Array(await crypto.subtle.sign("HMAC", key, counter));
-  const offset = hash[hash.length - 1] & 0xf;
-  const binary = ((hash[offset] & 0x7f) << 24) | (hash[offset + 1] << 16) | (hash[offset + 2] << 8) | hash[offset + 3];
-  return String(binary % 1000000).padStart(6, "0");
-}
-
-async function verifyTotp(secret: string, code: string) {
-  const cleanCode = code.replace(/\D/g, "");
-  const timestep = Math.floor(Date.now() / 30000);
-  const validCodes = await Promise.all([-1, 0, 1].map((offset) => generateTotp(secret, timestep + offset)));
-  return validCodes.includes(cleanCode);
 }
 
 function isoDate(date: Date) {
@@ -604,6 +559,11 @@ export default function App() {
       return (setCounts[key] ?? 0) >= exercise.sets;
     }) ?? false;
 
+  const lockApp = async () => {
+    await supabaseBrowser?.auth.signOut();
+    setAuthenticated(false);
+  };
+
   if (!authenticated) {
     return <AuthGate onAuthenticated={() => setAuthenticated(true)} />;
   }
@@ -629,7 +589,7 @@ export default function App() {
             <button className="iconButton" aria-label="Motivation" onClick={() => setMotivationMode(!motivationMode)}>
               <Sparkles size={20} />
             </button>
-            <button className="iconButton" aria-label="Lock app" onClick={() => setAuthenticated(false)}>
+            <button className="iconButton" aria-label="Lock app" onClick={lockApp}>
               <LogOut size={20} />
             </button>
           </div>
@@ -699,37 +659,29 @@ export default function App() {
 }
 
 function AuthGate({ onAuthenticated }: { onAuthenticated: () => void }) {
-  const [secret, setSecret] = useState("");
-  const [setupUri, setSetupUri] = useState("");
-  const [hasExistingSecret, setHasExistingSecret] = useState(true);
-  const [lockedToOtherDevice, setLockedToOtherDevice] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
-  const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  const [deviceId] = useState(() => getDeviceId());
 
   useEffect(() => {
     let mounted = true;
     async function loadAuth() {
       try {
         setLoading(true);
-        const status = await apiPost<{ registered: boolean; thisDevice: boolean }>("/auth/status", { deviceId });
-        if (!mounted) return;
-        if (status.registered && !status.thisDevice) {
-          setLockedToOtherDevice(true);
+        if (!supabaseBrowser) {
+          throw new Error("Missing Supabase browser keys. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+        }
+        const { data } = await supabaseBrowser.auth.getSession();
+        const token = data.session?.access_token;
+        if (!token) {
           return;
         }
-        if (!status.registered) {
-          const registration = await apiPost<{ ok: boolean; secret: string; setupUri: string }>("/auth/register", { deviceId });
-          if (!mounted) return;
-          setSecret(registration.secret);
-          setSetupUri(registration.setupUri);
-          setHasExistingSecret(false);
-          return;
-        }
-        setHasExistingSecret(true);
+        await apiPost<{ ok: boolean }>("/auth/authorize", { accessToken: token });
+        if (mounted) onAuthenticated();
       } catch (authError) {
-        if (mounted) setError(authError instanceof Error ? authError.message : "Could not reach NiIM backend.");
+        await supabaseBrowser?.auth.signOut();
+        if (mounted) setError(authError instanceof Error ? authError.message : "Could not authorize this user.");
       } finally {
         if (mounted) setLoading(false);
       }
@@ -738,15 +690,29 @@ function AuthGate({ onAuthenticated }: { onAuthenticated: () => void }) {
     return () => {
       mounted = false;
     };
-  }, [deviceId]);
+  }, [onAuthenticated]);
 
-  const submitCode = async () => {
+  const submitLogin = async () => {
     setError("");
+    setLoading(true);
     try {
-      await apiPost<{ ok: boolean }>("/auth/verify", { deviceId, code });
+      if (!supabaseBrowser) {
+        throw new Error("Missing Supabase browser keys. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      }
+      const { data, error: signInError } = await supabaseBrowser.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (signInError) throw signInError;
+      const token = data.session?.access_token;
+      if (!token) throw new Error("Supabase did not return a session.");
+      await apiPost<{ ok: boolean }>("/auth/authorize", { accessToken: token });
       onAuthenticated();
     } catch (authError) {
-      setError(authError instanceof Error ? authError.message : "That code did not match.");
+      await supabaseBrowser?.auth.signOut();
+      setError(authError instanceof Error ? authError.message : "Email or password could not be authorized.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -757,45 +723,37 @@ function AuthGate({ onAuthenticated }: { onAuthenticated: () => void }) {
           <div className="authIcon"><Lock size={24} /></div>
           <p className="eyebrow">Private training log</p>
           <h1>Unlock NiIM</h1>
-          {loading && <p>Connecting to the NiIM backend and checking this device.</p>}
-          {!loading && lockedToOtherDevice && (
-            <p>This NiIM backend is already locked to another device. Login from this phone is blocked.</p>
-          )}
-          {!loading && !lockedToOtherDevice && (
-            <p>
-              {hasExistingSecret
-                ? "Enter the 6-digit code from your authenticator app."
-                : "First time setup: add this key to your authenticator app, then enter the 6-digit code it shows."}
-            </p>
-          )}
+          <p>Sign in with your Supabase email and password. Only emails marked as authorized can enter.</p>
 
-          {!loading && !lockedToOtherDevice && !hasExistingSecret && (
-            <div className="setupBox">
-              <strong>Manual setup key</strong>
-              <code>{secret || "Generating..."}</code>
-              <span>{setupUri}</span>
-            </div>
-          )}
+          <label className="codeInput textInput">
+            <span>Email</span>
+            <input
+              inputMode="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              disabled={loading}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </label>
 
-          {!lockedToOtherDevice && (
-            <label className="codeInput">
-              <span>Authenticator code</span>
-              <input
-                inputMode="numeric"
-                maxLength={6}
-                placeholder="000000"
-                value={code}
-                disabled={loading}
-                onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
-              />
-            </label>
-          )}
+          <label className="codeInput textInput">
+            <span>Password</span>
+            <input
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              value={password}
+              disabled={loading}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </label>
 
           {error && <p className="authError">{error}</p>}
 
-          <button className="primaryButton" onClick={submitCode} disabled={loading || lockedToOtherDevice || code.length !== 6}>
-            <KeyRound size={18} />
-            Unlock app
+          <button className="primaryButton" onClick={submitLogin} disabled={loading || !email || password.length < 6}>
+            <Lock size={18} />
+            {loading ? "Checking access" : "Sign in"}
           </button>
         </section>
       </main>
