@@ -1,38 +1,41 @@
-# NiIM Hosting: Vercel + Supabase
+# NiIM Hosting: Render
 
-NiIM can be hosted on Vercel with Supabase as the hosted database. Vercel serves the React app and runs the `/api/*` serverless functions. Supabase stores the one-device lock, authenticator secret, and login events.
+NiIM is ready to host on Render as one Node web service. Render will run the backend, serve the built React app, and store the one-device login database on a persistent disk.
 
-## 1. Create Supabase Database
+## Recommended Render Setup
 
-1. Create a Supabase project.
-2. Open the SQL Editor.
-3. Run the SQL in `supabase-schema.sql`.
-4. Copy these values from Project Settings > API:
-   - Project URL
-   - `service_role` key
+Use the included `render.yaml` blueprint, or create the service manually.
 
-Keep the service role key private. It goes only in Vercel environment variables.
+### Manual Settings
 
-## 2. Deploy to Vercel
+- Service type: Web Service
+- Runtime: Node
+- Build command: `pnpm install && pnpm run build`
+- Start command: `pnpm start`
+- Health check path: `/health`
 
-1. Push this repo to GitHub.
-2. In Vercel, create a new project from the repo.
-3. Use:
-   - Framework preset: Vite
-   - Build command: `pnpm run build`
-   - Output directory: `dist`
-4. Add environment variables:
-   - `SUPABASE_URL=your Supabase project URL`
-   - `SUPABASE_SERVICE_ROLE_KEY=your Supabase service_role key`
-5. Deploy.
+### Environment Variables
 
-## 3. First Login
+- `NIIM_DATA_DIR=/var/data`
 
-The first device to open the deployed app registers itself. NiIM then shows the authenticator setup key. After that, other devices are blocked by the API even if they know the authenticator code.
+### Persistent Disk
+
+Add a persistent disk:
+
+```text
+Mount path: /var/data
+Size: 1 GB
+```
+
+This is where NiIM stores the one-device lock, authenticator secret, and auth events. Without the disk, your lock could reset after deploys.
+
+## First Login
+
+The first phone/browser to open the deployed Render URL registers itself. NiIM then shows the authenticator setup key. After that, other devices are blocked even if they know the authenticator code.
 
 ## Local Development
 
-Use the local JSON backend:
+Use two terminals:
 
 ```bash
 pnpm run dev:backend
@@ -41,5 +44,3 @@ pnpm run dev:backend
 ```bash
 pnpm run dev
 ```
-
-For local testing against Vercel-style API routes, use Vercel CLI with the Supabase environment variables configured.
