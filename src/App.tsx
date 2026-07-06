@@ -52,7 +52,7 @@ type Meal = {
   macros: string;
 };
 
-const startDate = new Date("2026-07-06T00:00:00");
+const startDate = new Date("2026-09-01T00:00:00");
 const targetDate = new Date("2028-10-31T00:00:00");
 
 const sessions: Session[] = [
@@ -1039,7 +1039,7 @@ function MotivationView({ quote }: { quote: string }) {
         <h3>Low motivation rule</h3>
         <p>Do the warm-up and the first set. After that, you can choose. Most days, starting is enough to wake the rest of you up.</p>
         <h3>Direction</h3>
-        <p>You are training for Samoa in 2028. The app starts from Monday, July 06, 2026 and points to October 31, 2028.</p>
+        <p>You are training for Samoa in 2028. The app starts from Tuesday, September 01, 2026 and points to October 31, 2028.</p>
       </section>
     </div>
   );
