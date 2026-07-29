@@ -671,3 +671,85 @@ li + li {
     font-size: 1.24rem;
   }
 }
+
+/* NiIM training HUD */
+:root {
+  color: #f4f6f0;
+  background: #101512;
+  --ink: #f4f6f0;
+  --muted: #9ba69a;
+  --panel: #18201a;
+  --panel-strong: #202b21;
+  --line: #2b3b2d;
+  --acid: #c9ff4d;
+  --acid-soft: #dfff8c;
+  --orange: #ff9c4a;
+}
+
+body { background: #101512; }
+button { cursor: pointer; }
+.phone { background: radial-gradient(circle at 90% 0%, #2b3b25 0, transparent 35%), #101512; color: var(--ink); }
+.topbar { background: rgba(16, 21, 18, .9); }
+.logoMark { border-radius: 12px; color: #101512; background: var(--acid); box-shadow: 0 0 22px rgba(201,255,77,.16); }
+.iconButton { color: var(--ink); background: var(--panel); border: 1px solid var(--line); box-shadow: none; }
+.hero { padding-top: 18px; }
+.heroTitleRow { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.hero h1, .sectionTitle h2 { color: var(--ink); font-size: 2.55rem; letter-spacing: -.08em; }
+.eyebrow, .sectionTitle p, .sessionHeader p, .exerciseTop p, .programCard span { color: var(--acid); letter-spacing: .12em; }
+.levelBadge { display: grid; place-items: center; gap: 2px; min-width: 62px; padding: 9px 7px; border: 1px solid var(--acid); border-radius: 14px; color: var(--acid); font-size: .66rem; font-weight: 950; }
+.levelBadge span { font-size: .68rem; }
+.xpTrack { margin: 2px 0 16px; padding: 11px 13px 13px; border: 1px solid var(--line); border-radius: 14px; background: rgba(24,32,26,.86); }
+.xpTrackTop { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: var(--muted); font-size: .7rem; font-weight: 850; text-transform: uppercase; }
+.xpTrackTop span:first-child { color: var(--acid); }
+.xpBar { height: 8px; overflow: hidden; border-radius: 999px; background: #303b2e; }
+.xpBar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--acid), #8ee43c); box-shadow: 0 0 14px rgba(201,255,77,.5); transition: width .25s ease; }
+.statsGrid { gap: 8px; }
+.metric, .sessionHeader, .detailsBand, .exerciseCard, .programCard, .foodCard { border-color: var(--line); border-radius: 16px; background: var(--panel); box-shadow: 0 14px 28px rgba(0,0,0,.14); }
+.metric { min-height: 76px; padding: 13px; }
+.metric span { color: var(--muted); text-transform: uppercase; font-size: .66rem; letter-spacing: .06em; }
+.metric strong { color: var(--ink); font-size: 1.15rem; }
+.missionBar { display: flex; align-items: center; gap: 11px; margin-top: 14px; padding: 13px; border: 1px solid #536b32; border-radius: 16px; background: linear-gradient(110deg, #263620, #192219); }
+.missionIcon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; color: #101512; background: var(--acid); }
+.missionBar div:nth-child(2) { min-width: 0; display: grid; gap: 3px; }
+.missionBar strong { color: var(--acid); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; }
+.missionBar span { overflow: hidden; color: var(--ink); font-size: .8rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.missionBar b { margin-left: auto; color: var(--orange); font-size: .8rem; white-space: nowrap; }
+.rewardToast { position: fixed; top: 76px; left: 50%; z-index: 8; transform: translateX(-50%); padding: 10px 15px; border: 1px solid var(--acid); border-radius: 999px; color: #101512; background: var(--acid); box-shadow: 0 8px 28px rgba(201,255,77,.25); font-size: .8rem; font-weight: 950; animation: rewardPop 1.4s ease forwards; }
+@keyframes rewardPop { 0% { opacity: 0; transform: translate(-50%, -8px) scale(.9); } 12%, 70% { opacity: 1; transform: translate(-50%, 0) scale(1); } 100% { opacity: 0; transform: translate(-50%, -5px) scale(.98); } }
+.quotePanel, .trainerCard { border: 1px solid #536b32; border-radius: 16px; color: var(--ink); background: #263620; box-shadow: none; }
+.quotePanel strong, .trainerCard strong { color: var(--acid); }
+.trainerCard span { border-color: #536b32; color: var(--acid-soft); }
+.sessionHeader { align-items: flex-start; }
+.sessionHeader h2 { color: var(--ink); letter-spacing: -.05em; }
+.sessionHeader span, .loadLine, .detailsBand p, .programCard p, .foodTop p, ol { color: var(--muted); }
+.sessionReward { display: grid; justify-items: end; gap: 6px; color: var(--orange); font-size: .72rem; white-space: nowrap; }
+.doneBadge { color: #101512; background: var(--acid); }
+.runCard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--line); }
+.runCard div { display: grid; gap: 5px; padding: 12px 9px; background: var(--panel-strong); }
+.runCard span { color: var(--muted); font-size: .62rem; font-weight: 850; text-transform: uppercase; }
+.runCard strong { color: var(--acid); font-size: .92rem; }
+.miniCard { border: 1px solid var(--line); border-radius: 16px; color: var(--ink); background: var(--panel); box-shadow: none; }
+.miniCard .miniIcon { color: #101512; background: var(--acid); }
+.detailsBand { padding: 17px; }
+.exerciseCard { padding: 17px; }
+.exerciseCard.closed { border-color: #536b32; opacity: .78; }
+.exerciseTop h3 { color: var(--ink); letter-spacing: -.035em; }
+.exerciseTop span { color: var(--acid-soft); }
+.counterRing { border-color: var(--acid); color: var(--acid); }
+.loadLine { background: #202b21; }
+.coachNote { border-color: #536b32; color: var(--acid-soft); background: #253321; }
+.primaryButton, .finishButton { color: #101512; background: var(--acid); box-shadow: 0 10px 22px rgba(201,255,77,.12); }
+.primaryButton:disabled, .finishButton:disabled { color: #667061; background: #2c362d; box-shadow: none; }
+.buttonXp { margin-left: auto; color: #4e6e1b; font-size: .72rem; }
+.ghostButton { color: var(--ink); background: #2c362d; }
+.programCard h3, .foodTop h3, .detailsBand h3 { color: var(--ink); }
+.macroLine { color: #101512; background: var(--acid); }
+.calendarGrid.labels span { color: var(--muted); }
+.calendarCell { border-color: var(--line); color: var(--ink); background: var(--panel); }
+.calendarCell.training { border-color: #536b32; }
+.calendarCell.done { color: #101512; background: var(--acid); }
+.calendarCell.today { outline-color: var(--orange); }
+.bigQuote { border: 1px solid #536b32; border-radius: 16px; color: var(--ink); background: #263620; box-shadow: none; }
+.bottomNav { border-color: var(--line); border-radius: 20px; background: rgba(24,32,26,.94); box-shadow: 0 18px 45px rgba(0,0,0,.38); }
+.bottomNav button { color: var(--muted); }
+.bottomNav button.active { color: #101512; background: var(--acid); }

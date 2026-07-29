@@ -1,5 +1,6 @@
 import {
   Activity,
+  Award,
   CalendarDays,
   Check,
   ChevronRight,
@@ -16,6 +17,7 @@ import {
   Timer,
   Trophy,
   Utensils,
+  Zap,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -464,6 +466,23 @@ function positiveModulo(value: number, divisor: number) {
   return ((value % divisor) + divisor) % divisor;
 }
 
+function getTrainingStats(completedSessions: Record<string, string>, setCounts: Record<string, number>, today: Date) {
+  const completedDates = Object.keys(completedSessions).sort();
+  const totalSets = Object.values(setCounts).reduce((total, count) => total + count, 0);
+  const xp = completedDates.length * 500 + totalSets * 25;
+  const level = Math.floor(xp / 1000) + 1;
+  const levelProgress = xp % 1000;
+  let streak = 0;
+  const cursor = new Date(today);
+  for (let offset = 0; offset < 14; offset += 1) {
+    const isTrainingDay = trainingDays.has(dayKeys[cursor.getDay()]);
+    if (isTrainingDay && completedSessions[isoDate(cursor)]) streak += 1;
+    if (isTrainingDay && !completedSessions[isoDate(cursor)]) break;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length };
+}
+
 function getSessionForDate(date: Date) {
   const key = dayKeys[date.getDay()];
   return sessions.find((session) => session.key === key);
@@ -520,6 +539,7 @@ export default function App() {
   const [setCounts, setSetCounts, setsReady] = useDatabaseState<Record<string, number>>("set-counts", {});
   const [completedSessions, setCompletedSessions, sessionsReady] = useDatabaseState<Record<string, string>>("completed-sessions", {});
   const [motivationMode, setMotivationMode] = useState(false);
+  const [lastReward, setLastReward] = useState(0);
   const journeyOffset = daysBetween(startDate, today);
   const activeJourneyOffset = Math.max(0, journeyOffset);
   const quote = quotes[positiveModulo(activeJourneyOffset, quotes.length)];
@@ -529,6 +549,7 @@ export default function App() {
   const completeToday = Boolean(completedSessions[todayKey]);
   const journeyLabel = journeyOffset < 0 ? `Starts in ${Math.abs(journeyOffset)}d` : `Day ${journeyOffset + 1}`;
   const daysLeft = Math.max(0, daysBetween(today, targetDate));
+  const stats = getTrainingStats(completedSessions, setCounts, today);
 
   const sessionForCard = todaySession ?? nextTraining?.session;
   const sessionDate = todaySession ? today : nextTraining?.date ?? today;
@@ -539,6 +560,7 @@ export default function App() {
       ...current,
       [storageKey]: Math.min((current[storageKey] ?? 0) + 1, exercise.sets),
     }));
+    setLastReward(25);
   };
 
   const resetExercise = (exercise: Exercise) => {
@@ -551,6 +573,7 @@ export default function App() {
       ...current,
       [isoDate(sessionDate)]: sessionForCard?.title ?? "Training",
     }));
+    setLastReward(500);
   };
 
   const allDone =
@@ -596,15 +619,32 @@ export default function App() {
         </section>
 
         <section className="hero">
-          <p className="eyebrow">Nothing is impossible</p>
-          <h1>Samoa rugby body, built one session at a time.</h1>
+          <div className="heroTitleRow">
+            <div>
+              <p className="eyebrow">Nothing is impossible</p>
+              <h1>Build the body that answers the call.</h1>
+            </div>
+            <div className="levelBadge"><Award size={18} /><span>LVL {stats.level}</span></div>
+          </div>
+          <div className="xpTrack">
+            <div className="xpTrackTop"><span>{stats.xp.toLocaleString()} XP</span><span>{1000 - stats.levelProgress} XP to next level</span></div>
+            <div className="xpBar"><span style={{ width: `${stats.levelProgress / 10}%` }} /></div>
+          </div>
           <div className="statsGrid">
-            <Metric label="Height" value="178 cm" />
-            <Metric label="Weight" value="110 kg" />
+            <Metric label="Current streak" value={`${stats.streak} days`} />
+            <Metric label="Rank" value={stats.level >= 5 ? "Starter" : "Rookie"} />
             <Metric label="Journey" value={journeyLabel} />
-            <Metric label="Days left" value={String(daysLeft)} />
+            <Metric label="Days to Samoa" value={String(daysLeft)} />
           </div>
         </section>
+
+        <section className="missionBar">
+          <div className="missionIcon"><Zap size={18} /></div>
+          <div><strong>Daily mission</strong><span>{challenge}</span></div>
+          <b>+150</b>
+        </section>
+
+        {lastReward > 0 && <div className="rewardToast" onAnimationEnd={() => setLastReward(0)}>+{lastReward} XP earned</div>}
 
         {motivationMode && (
           <section className="quotePanel">
@@ -631,6 +671,7 @@ export default function App() {
             challenge={challenge}
             trainerCall={trainerCall}
             sessionTwist={sessionTwist}
+            stats={stats}
           />
         )}
 
@@ -790,6 +831,7 @@ function TodayView({
   challenge,
   trainerCall,
   sessionTwist,
+  stats,
 }: {
   completeToday: boolean;
   session?: Session;
@@ -804,6 +846,7 @@ function TodayView({
   challenge: string;
   trainerCall: string;
   sessionTwist: string;
+  stats: { xp: number; level: number; levelProgress: number; streak: number; totalSets: number; sessions: number };
 }) {
   if (!session) return null;
 
@@ -815,7 +858,13 @@ function TodayView({
           <h2>{session.title}</h2>
           <span>{session.intent}</span>
         </div>
-        {completeToday && <Check className="doneBadge" size={24} />}
+        <div className="sessionReward"><Flame size={17} /><strong>+500 XP</strong>{completeToday && <Check className="doneBadge" size={22} />}</div>
+      </section>
+
+      <section className="runCard">
+        <div><span>Current run</span><strong>{stats.streak} day streak</strong></div>
+        <div><span>Session clear</span><strong>+500 XP</strong></div>
+        <div><span>Sets logged</span><strong>{stats.totalSets}</strong></div>
       </section>
 
       <section className="miniCard">
@@ -873,7 +922,7 @@ function TodayView({
                   </ol>
                   <button className="primaryButton" onClick={() => onIncrement(exercise)}>
                     <Check size={18} />
-                    Complete set {Math.min(count + 1, exercise.sets)}
+                    Log set {Math.min(count + 1, exercise.sets)} <span className="buttonXp">+25 XP</span>
                   </button>
                 </>
               )}
@@ -897,7 +946,7 @@ function TodayView({
       </section>
 
       <button className="finishButton" disabled={!allDone} onClick={onDone}>
-        {allDone ? "Lock session complete" : "Finish every set to close session"}
+        {allDone ? "Claim session reward · +500 XP" : "Complete all sets to unlock reward"}
       </button>
     </div>
   );
