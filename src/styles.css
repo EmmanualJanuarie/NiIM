@@ -753,3 +753,21 @@ button { cursor: pointer; }
 .bottomNav { border-color: var(--line); border-radius: 20px; background: rgba(24,32,26,.94); box-shadow: 0 18px 45px rgba(0,0,0,.38); }
 .bottomNav button { color: var(--muted); }
 .bottomNav button.active { color: #101512; background: var(--acid); }
+.foodCard ul, .foodCard li { color: var(--ink); }
+.foodCard .loadLine { color: var(--ink); }
+.taskPanel { display: grid; gap: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); box-shadow: 0 14px 28px rgba(0,0,0,.14); }
+.taskPanelHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
+.taskPanelHeader p { margin: 0 0 4px; color: var(--acid); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.taskPanelHeader h3 { margin: 0; color: var(--ink); font-size: 1.22rem; }
+.taskPanelHeader > strong { color: var(--orange); font-size: .72rem; white-space: nowrap; }
+.taskRow { display: flex; align-items: center; gap: 11px; width: 100%; padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--ink); background: transparent; text-align: left; }
+.taskRow:last-child { border-bottom: 0; }
+.taskRow:active { background: #253321; }
+.taskCheck { display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 auto; border: 2px solid #71806d; border-radius: 8px; color: #101512; }
+.taskRow.done .taskCheck { border-color: var(--acid); background: var(--acid); }
+.taskCopy { display: grid; min-width: 0; gap: 4px; }
+.taskCopy strong { color: var(--ink); font-size: .9rem; }
+.taskCopy small { overflow: hidden; color: var(--muted); font-size: .74rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.taskRow.done .taskCopy strong { color: var(--acid); text-decoration: line-through; }
+.taskRow > b { margin-left: auto; color: var(--orange); font-size: .72rem; }
+.foodTasks { margin-bottom: 0; }

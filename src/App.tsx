@@ -466,10 +466,11 @@ function positiveModulo(value: number, divisor: number) {
   return ((value % divisor) + divisor) % divisor;
 }
 
-function getTrainingStats(completedSessions: Record<string, string>, setCounts: Record<string, number>, today: Date) {
+function getTrainingStats(completedSessions: Record<string, string>, setCounts: Record<string, number>, taskProgress: Record<string, boolean>, today: Date) {
   const completedDates = Object.keys(completedSessions).sort();
   const totalSets = Object.values(setCounts).reduce((total, count) => total + count, 0);
-  const xp = completedDates.length * 500 + totalSets * 25;
+  const completedTasks = Object.values(taskProgress).filter(Boolean).length;
+  const xp = completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
   const level = Math.floor(xp / 1000) + 1;
   const levelProgress = xp % 1000;
   let streak = 0;
@@ -480,7 +481,7 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
     if (isTrainingDay && !completedSessions[isoDate(cursor)]) break;
     cursor.setDate(cursor.getDate() - 1);
   }
-  return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length };
+  return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length, completedTasks };
 }
 
 function getSessionForDate(date: Date) {
@@ -538,6 +539,7 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [setCounts, setSetCounts, setsReady] = useDatabaseState<Record<string, number>>("set-counts", {});
   const [completedSessions, setCompletedSessions, sessionsReady] = useDatabaseState<Record<string, string>>("completed-sessions", {});
+  const [taskProgress, setTaskProgress, tasksReady] = useDatabaseState<Record<string, boolean>>("task-progress", {});
   const [motivationMode, setMotivationMode] = useState(false);
   const [lastReward, setLastReward] = useState(0);
   const journeyOffset = daysBetween(startDate, today);
@@ -549,7 +551,7 @@ export default function App() {
   const completeToday = Boolean(completedSessions[todayKey]);
   const journeyLabel = journeyOffset < 0 ? `Starts in ${Math.abs(journeyOffset)}d` : `Day ${journeyOffset + 1}`;
   const daysLeft = Math.max(0, daysBetween(today, targetDate));
-  const stats = getTrainingStats(completedSessions, setCounts, today);
+  const stats = getTrainingStats(completedSessions, setCounts, taskProgress, today);
 
   const sessionForCard = todaySession ?? nextTraining?.session;
   const sessionDate = todaySession ? today : nextTraining?.date ?? today;
@@ -576,6 +578,11 @@ export default function App() {
     setLastReward(500);
   };
 
+  const toggleTask = (taskKey: string) => {
+    setTaskProgress((current) => ({ ...current, [taskKey]: !current[taskKey] }));
+    if (!taskProgress[taskKey]) setLastReward(50);
+  };
+
   const allDone =
     sessionForCard?.exercises.every((exercise) => {
       const key = `${isoDate(sessionDate)}:${exercise.id}`;
@@ -591,7 +598,7 @@ export default function App() {
     return <AuthGate onAuthenticated={() => setAuthenticated(true)} />;
   }
 
-  if (!setsReady || !sessionsReady) {
+  if (!setsReady || !sessionsReady || !tasksReady) {
     return (
       <main className="phone authScreen">
         <div className="authCard">
@@ -672,11 +679,13 @@ export default function App() {
             trainerCall={trainerCall}
             sessionTwist={sessionTwist}
             stats={stats}
+            taskProgress={taskProgress}
+            onTaskToggle={toggleTask}
           />
         )}
 
         {activeTab === "program" && <ProgramView />}
-        {activeTab === "food" && <FoodView />}
+        {activeTab === "food" && <FoodView todayKey={todayKey} taskProgress={taskProgress} onTaskToggle={toggleTask} />}
         {activeTab === "calendar" && <CalendarView completedSessions={completedSessions} today={today} />}
         {activeTab === "motivate" && <MotivationView quote={quote} />}
       </main>
@@ -832,6 +841,8 @@ function TodayView({
   trainerCall,
   sessionTwist,
   stats,
+  taskProgress,
+  onTaskToggle,
 }: {
   completeToday: boolean;
   session?: Session;
@@ -846,7 +857,9 @@ function TodayView({
   challenge: string;
   trainerCall: string;
   sessionTwist: string;
-  stats: { xp: number; level: number; levelProgress: number; streak: number; totalSets: number; sessions: number };
+  stats: { xp: number; level: number; levelProgress: number; streak: number; totalSets: number; sessions: number; completedTasks: number };
+  taskProgress: Record<string, boolean>;
+  onTaskToggle: (taskKey: string) => void;
 }) {
   if (!session) return null;
 
@@ -884,11 +897,11 @@ function TodayView({
         </div>
       </section>
 
-      <section className="detailsBand">
-        <h3>Warm-up</h3>
-        {session.warmup.map((item) => (
-          <p key={item}>{item}</p>
-        ))}
+      <section className="taskPanel">
+        <div className="taskPanelHeader"><div><p>Daily tasks</p><h3>Finish the whole mission</h3></div><strong>+50 XP each</strong></div>
+        <TaskRow taskKey={`${isoDate(sessionDate)}:warmup`} label="Complete warm-up" detail={session.warmup.join(" · ")} done={Boolean(taskProgress[`${isoDate(sessionDate)}:warmup`])} onToggle={onTaskToggle} />
+        <TaskRow taskKey={`${isoDate(sessionDate)}:cardio`} label="Complete cardio" detail={session.cardio} done={Boolean(taskProgress[`${isoDate(sessionDate)}:cardio`])} onToggle={onTaskToggle} />
+        <TaskRow taskKey={`${isoDate(sessionDate)}:finisher`} label="Complete finisher" detail={session.finisher} done={Boolean(taskProgress[`${isoDate(sessionDate)}:finisher`])} onToggle={onTaskToggle} />
       </section>
 
       <div className="exerciseList">
@@ -938,17 +951,20 @@ function TodayView({
         })}
       </div>
 
-      <section className="detailsBand">
-        <h3>Cardio</h3>
-        <p>{session.cardio}</p>
-        <h3>Finisher</h3>
-        <p>{session.finisher}</p>
-      </section>
-
       <button className="finishButton" disabled={!allDone} onClick={onDone}>
         {allDone ? "Claim session reward · +500 XP" : "Complete all sets to unlock reward"}
       </button>
     </div>
+  );
+}
+
+function TaskRow({ taskKey, label, detail, done, onToggle }: { taskKey: string; label: string; detail: string; done: boolean; onToggle: (taskKey: string) => void }) {
+  return (
+    <button className={`taskRow ${done ? "done" : ""}`} onClick={() => onToggle(taskKey)}>
+      <span className="taskCheck">{done && <Check size={15} />}</span>
+      <span className="taskCopy"><strong>{label}</strong><small>{detail}</small></span>
+      <b>+50</b>
+    </button>
   );
 }
 
@@ -1027,7 +1043,7 @@ function CalendarView({ completedSessions, today }: { completedSessions: Record<
   );
 }
 
-function FoodView() {
+function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; taskProgress: Record<string, boolean>; onTaskToggle: (taskKey: string) => void }) {
   return (
     <div className="contentStack">
       <section className="sectionTitle">
@@ -1042,6 +1058,15 @@ function FoodView() {
           <p>Simple food, exact portions, high protein. This supports a bigger rugby frame while still keeping conditioning possible.</p>
           <span>Adjust rice up on hard training days and slightly down on rest days.</span>
         </div>
+      </section>
+
+      <section className="taskPanel foodTasks">
+        <div className="taskPanelHeader"><div><p>Daily food tasks</p><h3>Fuel the player</h3></div><strong>+50 XP each</strong></div>
+        {meals.map((meal) => {
+          const taskKey = `${todayKey}:food:${meal.name.toLowerCase()}`;
+          return <TaskRow key={taskKey} taskKey={taskKey} label={`Eat ${meal.name.toLowerCase()}`} detail={meal.macros} done={Boolean(taskProgress[taskKey])} onToggle={onTaskToggle} />;
+        })}
+        <TaskRow taskKey={`${todayKey}:food:water`} label="Hit your water target" detail="Aim for 2.5–3.5 L today, more in heat or hard cardio." done={Boolean(taskProgress[`${todayKey}:food:water`])} onToggle={onTaskToggle} />
       </section>
 
       {meals.map((meal) => (
