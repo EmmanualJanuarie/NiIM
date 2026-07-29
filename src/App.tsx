@@ -54,7 +54,7 @@ type Meal = {
   macros: string;
 };
 
-const startDate = new Date("2026-09-01T00:00:00");
+const startDate = new Date("2026-08-03T00:00:00");
 const targetDate = new Date("2028-10-31T00:00:00");
 
 const sessions: Session[] = [
@@ -899,9 +899,11 @@ function TodayView({
 
       <section className="taskPanel">
         <div className="taskPanelHeader"><div><p>Daily tasks</p><h3>Finish the whole mission</h3></div><strong>+50 XP each</strong></div>
-        <TaskRow taskKey={`${isoDate(sessionDate)}:warmup`} label="Complete warm-up" detail={session.warmup.join(" · ")} done={Boolean(taskProgress[`${isoDate(sessionDate)}:warmup`])} onToggle={onTaskToggle} />
-        <TaskRow taskKey={`${isoDate(sessionDate)}:cardio`} label="Complete cardio" detail={session.cardio} done={Boolean(taskProgress[`${isoDate(sessionDate)}:cardio`])} onToggle={onTaskToggle} />
-        <TaskRow taskKey={`${isoDate(sessionDate)}:finisher`} label="Complete finisher" detail={session.finisher} done={Boolean(taskProgress[`${isoDate(sessionDate)}:finisher`])} onToggle={onTaskToggle} />
+        <div className="taskCarousel">
+          <TaskRow taskKey={`${isoDate(sessionDate)}:warmup`} label="Complete warm-up" detail={session.warmup.join(" · ")} done={Boolean(taskProgress[`${isoDate(sessionDate)}:warmup`])} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${isoDate(sessionDate)}:cardio`} label="Complete cardio" detail={session.cardio} done={Boolean(taskProgress[`${isoDate(sessionDate)}:cardio`])} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${isoDate(sessionDate)}:finisher`} label="Complete finisher" detail={session.finisher} done={Boolean(taskProgress[`${isoDate(sessionDate)}:finisher`])} onToggle={onTaskToggle} />
+        </div>
       </section>
 
       <div className="exerciseList">
@@ -1062,11 +1064,13 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
 
       <section className="taskPanel foodTasks">
         <div className="taskPanelHeader"><div><p>Daily food tasks</p><h3>Fuel the player</h3></div><strong>+50 XP each</strong></div>
-        {meals.map((meal) => {
-          const taskKey = `${todayKey}:food:${meal.name.toLowerCase()}`;
-          return <TaskRow key={taskKey} taskKey={taskKey} label={`Eat ${meal.name.toLowerCase()}`} detail={meal.macros} done={Boolean(taskProgress[taskKey])} onToggle={onTaskToggle} />;
-        })}
-        <TaskRow taskKey={`${todayKey}:food:water`} label="Hit your water target" detail="Aim for 2.5–3.5 L today, more in heat or hard cardio." done={Boolean(taskProgress[`${todayKey}:food:water`])} onToggle={onTaskToggle} />
+        <div className="taskCarousel">
+          {meals.map((meal) => {
+            const taskKey = `${todayKey}:food:${meal.name.toLowerCase()}`;
+            return <TaskRow key={taskKey} taskKey={taskKey} label={`Eat ${meal.name.toLowerCase()}`} detail={meal.macros} done={Boolean(taskProgress[taskKey])} onToggle={onTaskToggle} />;
+          })}
+          <TaskRow taskKey={`${todayKey}:food:water`} label="Hit your water target" detail="Aim for 2.5–3.5 L today, more in heat or hard cardio." done={Boolean(taskProgress[`${todayKey}:food:water`])} onToggle={onTaskToggle} />
+        </div>
       </section>
 
       {meals.map((meal) => (
@@ -1113,7 +1117,7 @@ function MotivationView({ quote }: { quote: string }) {
         <h3>Low motivation rule</h3>
         <p>Do the warm-up and the first set. After that, you can choose. Most days, starting is enough to wake the rest of you up.</p>
         <h3>Direction</h3>
-        <p>You are training for Samoa in 2028. The app starts from Tuesday, September 01, 2026 and points to October 31, 2028.</p>
+        <p>You are training for Samoa in 2028. The app starts Monday, August 03, 2026 and points to October 31, 2028.</p>
       </section>
     </div>
   );
