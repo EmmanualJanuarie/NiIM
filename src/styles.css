@@ -780,3 +780,18 @@ button { cursor: pointer; }
 .taskCarousel .taskCopy strong { font-size: 1rem; }
 .taskCarousel .taskCopy small { overflow: visible; white-space: normal; line-height: 1.45; }
 .taskCarousel .taskRow > b { align-self: start; }
+.achievementSection { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); box-shadow: 0 14px 28px rgba(0,0,0,.14); }
+.achievementHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
+.achievementHeader p { margin: 0 0 4px; color: var(--acid); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.achievementHeader h3 { margin: 0; color: var(--ink); font-size: 1.22rem; }
+.achievementHeader > strong { color: var(--orange); font-size: .72rem; white-space: nowrap; }
+.achievementGrid { display: grid; gap: 8px; padding: 12px; }
+.achievementCard { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel-strong); }
+.achievementCard.unlocked { border-color: #536b32; background: #263620; }
+.achievementCard.locked { opacity: .7; }
+.achievementEmoji { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 auto; border-radius: 12px; background: #101512; font-size: 1.55rem; }
+.achievementCard.unlocked .achievementEmoji { background: var(--acid); }
+.achievementCopy { display: grid; min-width: 0; gap: 3px; }
+.achievementCopy strong { color: var(--ink); font-size: .9rem; }
+.achievementCopy p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.35; }
+.achievementCopy span { color: var(--acid); font-size: .68rem; font-weight: 900; text-transform: uppercase; }

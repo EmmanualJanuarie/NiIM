@@ -64,8 +64,8 @@ const sessions: Session[] = [
     title: "Front-Line Strength",
     intent: "Bench, legs, trunk pressure, and contact strength for rugby.",
     warmup: ["5 min light jump rope", "World's greatest stretch x 5 each side", "Empty bar press x 15"],
-    cardio: "Easy 12 minute jog after lifting. Nose breathing pace.",
-    finisher: "Heavy rope: 8 rounds of 20 seconds on, 40 seconds walk.",
+    cardio: "Rugby repeat-power burner: 8 rounds of 20 m sprint, 20 m backpedal, 20 m sprint. Rest 60 seconds, then 12 minutes easy jog.",
+    finisher: "Heavy rope: 10 rounds of 20 seconds hard, 40 seconds walk. Finish with 3 x 20 m bear crawls.",
     exercises: [
       {
         id: "bench",
@@ -106,6 +106,32 @@ const sessions: Session[] = [
           "Keep your spine long and lower the bar under control.",
         ],
       },
+      {
+        id: "lunge",
+        name: "Front-Rack Reverse Lunge",
+        sets: 4,
+        reps: "10 each leg",
+        load: "Barbell or two dumbbells you can control without wobbling.",
+        focus: "Single-leg drive, glutes, and tackle-position strength.",
+        instructions: [
+          "Brace tall, step back softly, and keep the front foot planted.",
+          "Drop the back knee under control until the front thigh is working hard.",
+          "Drive through the whole front foot and squeeze the glute at the top.",
+        ],
+      },
+      {
+        id: "curl",
+        name: "Barbell Curl",
+        sets: 4,
+        reps: "10-12 reps",
+        load: "Light enough to keep elbows still and lower for 3 seconds.",
+        focus: "Biceps and arm strength for hand-fighting and ball security.",
+        instructions: [
+          "Stand tall with ribs down and elbows close to your sides.",
+          "Curl without swinging your shoulders or leaning back.",
+          "Lower slowly and fully straighten the elbows without snapping them.",
+        ],
+      },
     ],
   },
   {
@@ -114,8 +140,8 @@ const sessions: Session[] = [
     title: "Engine And Feet",
     intent: "Conditioning, speed repeatability, and core control.",
     warmup: ["3 min light rope", "High knees x 30 sec", "A-skips x 20 meters", "Hip openers x 8 each"],
-    cardio: "Jog 20 minutes. Every 4 minutes, surge for 20 seconds then settle.",
-    finisher: "Ab roller: 5 sets of 5 controlled reps from knees.",
+    cardio: "Rugby shuttle burner: 3 blocks of 5 x 20 m out-and-back shuttles. Rest 90 seconds between blocks; finish with 6 x 10 m reaction sprints.",
+    finisher: "Ab roller: 5 sets of 5 controlled reps from knees, then 4 x 30 seconds lateral line hops.",
     exercises: [
       {
         id: "rope",
@@ -156,6 +182,19 @@ const sessions: Session[] = [
           "End the set before your grip fully fails.",
         ],
       },
+      {
+        id: "chin",
+        name: "Chin-Up or Assisted Chin-Up",
+        sets: 5,
+        reps: "5-8 reps",
+        load: "Use a band or chair assist. Stop before your shoulders lose position.",
+        focus: "Lats, upper back, and biceps for contact and carrying strength.",
+        instructions: [
+          "Start from a controlled hang with your ribs tucked and shoulders active.",
+          "Pull your chest toward the bar and drive elbows down.",
+          "Lower for 3 seconds and reset instead of kicking or swinging.",
+        ],
+      },
     ],
   },
   {
@@ -164,8 +203,8 @@ const sessions: Session[] = [
     title: "Hinge And Carry Power",
     intent: "Posterior chain, grip, and collision-ready hips.",
     warmup: ["5 min easy jog", "Glute bridges x 15", "Empty bar Romanian deadlift x 12"],
-    cardio: "6 hill or driveway accelerations of 15 seconds. Walk back fully.",
-    finisher: "Mat core: side plank 3 x 30 seconds each side.",
+    cardio: "Hill-repeat burner: 10 x 15-second uphill accelerations. Walk back fully, then 4 x 30 m heavy farmer carries with 45 seconds rest.",
+    finisher: "Mat core: side plank 3 x 30 seconds each side, then 3 x 12 frog pumps for glutes.",
     exercises: [
       {
         id: "deadlift",
@@ -206,6 +245,32 @@ const sessions: Session[] = [
           "Turn carefully, then keep moving until distance is complete.",
         ],
       },
+      {
+        id: "hip-thrust",
+        name: "Barbell Hip Thrust",
+        sets: 4,
+        reps: "10-12 reps",
+        load: "Moderate barbell load. Pause and squeeze at lockout.",
+        focus: "Glute size and hip extension for acceleration and contact power.",
+        instructions: [
+          "Set your upper back against a bench and keep your chin slightly tucked.",
+          "Drive through your heels until hips are fully extended without arching your back.",
+          "Hold the top for one beat, then lower under control.",
+        ],
+      },
+      {
+        id: "rdl",
+        name: "Romanian Deadlift",
+        sets: 4,
+        reps: "8-10 reps",
+        load: "Moderate load. Keep the bar close and stop when hamstrings are loaded.",
+        focus: "Hamstrings, glutes, and posterior-chain size for sprinting.",
+        instructions: [
+          "Unlock the knees and push the hips back while keeping the spine long.",
+          "Lower until the hamstrings are loaded, not until your back rounds.",
+          "Push the hips forward and squeeze the glutes to stand tall.",
+        ],
+      },
     ],
   },
   {
@@ -214,8 +279,8 @@ const sessions: Session[] = [
     title: "Speed Strength",
     intent: "Explosive reps, athletic movement, and durable shoulders.",
     warmup: ["Light rope x 4 min", "Bodyweight squats x 20", "Scap push-ups x 12"],
-    cardio: "10 x 60 meter strides at 70-80 percent. Walk back recovery.",
-    finisher: "Heavy rope: 5 minutes continuous, relaxed pace.",
+    cardio: "Broken-field burner: 10 x 60 m strides at 80-90 percent with walk-back recovery, then 5-10-5 change-of-direction drill x 6.",
+    finisher: "Heavy rope: 6 minutes continuous, changing 30 seconds steady and 30 seconds hard.",
     exercises: [
       {
         id: "jump",
@@ -256,6 +321,19 @@ const sessions: Session[] = [
           "Drive through the front foot and keep your torso controlled.",
         ],
       },
+      {
+        id: "nordic",
+        name: "Nordic Hamstring Lower",
+        sets: 4,
+        reps: "5 slow reps",
+        load: "Anchor your ankles under a heavy bar or have a partner hold them.",
+        focus: "Hamstring resilience for sprinting, cutting, and injury prevention.",
+        instructions: [
+          "Start tall with hips extended and ribs down.",
+          "Lower forward for 4-5 seconds, using your hands to catch the floor.",
+          "Push lightly to return to the start; never force a painful range.",
+        ],
+      },
     ],
   },
   {
@@ -264,7 +342,7 @@ const sessions: Session[] = [
     title: "Samoa Rugby Builder",
     intent: "Longer work capacity, trunk resilience, and confidence.",
     warmup: ["Easy jog x 8 min", "Dynamic lunges x 10 each", "Shoulder circles x 20"],
-    cardio: "Rugby engine: 30 min jog-walk. Jog 3 minutes, walk 1 minute.",
+    cardio: "Rugby engine test: 10 rounds of 2 minutes hard jog, 30 seconds walk, then 8 x 20 m carry-and-sprint efforts with full walk-back recovery.",
     finisher: "Write one sentence: where am I going, and what did I prove today?",
     exercises: [
       {
@@ -348,6 +426,28 @@ const sessionTwists = [
   "Captain's standard: no skipped warm-up, no rushed cooldown.",
   "Samoa engine: breathe steady even when the work gets uncomfortable.",
 ];
+
+type Achievement = {
+  id: string;
+  emoji: string;
+  title: string;
+  description: string;
+  progress: string;
+  unlocked: boolean;
+};
+
+function getAchievements(stats: { sessions: number; totalSets: number; completedTasks: number; cardioTasks: number; foodTasks: number; streak: number; level: number }): Achievement[] {
+  return [
+    { id: "first-whistle", emoji: "🏉", title: "First Whistle", description: "Complete your first training session.", progress: `${Math.min(stats.sessions, 1)}/1 session`, unlocked: stats.sessions >= 1 },
+    { id: "week-warrior", emoji: "💪", title: "Week Warrior", description: "Complete five training sessions.", progress: `${Math.min(stats.sessions, 5)}/5 sessions`, unlocked: stats.sessions >= 5 },
+    { id: "one-month", emoji: "🔥", title: "One Month Consistency", description: "Build a 20-session training month.", progress: `${Math.min(stats.sessions, 20)}/20 sessions`, unlocked: stats.sessions >= 20 },
+    { id: "leg-drive", emoji: "🦵", title: "Leg Drive", description: "Log 50 working sets toward stronger legs.", progress: `${Math.min(stats.totalSets, 50)}/50 sets`, unlocked: stats.totalSets >= 50 },
+    { id: "rugby-engine", emoji: "⚡", title: "Rugby Engine", description: "Complete 10 rugby conditioning tasks.", progress: `${Math.min(stats.cardioTasks, 10)}/10 cardio tasks`, unlocked: stats.cardioTasks >= 10 },
+    { id: "fuel-the-player", emoji: "🥗", title: "Fuel The Player", description: "Complete 20 food and hydration tasks.", progress: `${Math.min(stats.foodTasks, 20)}/20 food tasks`, unlocked: stats.foodTasks >= 20 },
+    { id: "captains-run", emoji: "🏆", title: "Captain's Run", description: "Reach a seven-training-day streak.", progress: `${Math.min(stats.streak, 7)}/7 training days`, unlocked: stats.streak >= 7 },
+    { id: "level-up", emoji: "🌟", title: "Level Up", description: "Reach level five.", progress: `Level ${Math.min(stats.level, 5)}/5`, unlocked: stats.level >= 5 },
+  ];
+}
 
 const meals: Meal[] = [
   {
@@ -470,6 +570,8 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
   const completedDates = Object.keys(completedSessions).sort();
   const totalSets = Object.values(setCounts).reduce((total, count) => total + count, 0);
   const completedTasks = Object.values(taskProgress).filter(Boolean).length;
+  const cardioTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.endsWith(":cardio")).length;
+  const foodTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.includes(":food:")).length;
   const xp = completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
   const level = Math.floor(xp / 1000) + 1;
   const levelProgress = xp % 1000;
@@ -481,7 +583,7 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
     if (isTrainingDay && !completedSessions[isoDate(cursor)]) break;
     cursor.setDate(cursor.getDate() - 1);
   }
-  return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length, completedTasks };
+  return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length, completedTasks, cardioTasks, foodTasks };
 }
 
 function getSessionForDate(date: Date) {
@@ -687,7 +789,7 @@ export default function App() {
         {activeTab === "program" && <ProgramView />}
         {activeTab === "food" && <FoodView todayKey={todayKey} taskProgress={taskProgress} onTaskToggle={toggleTask} />}
         {activeTab === "calendar" && <CalendarView completedSessions={completedSessions} today={today} />}
-        {activeTab === "motivate" && <MotivationView quote={quote} />}
+        {activeTab === "motivate" && <MotivationView quote={quote} achievements={getAchievements(stats)} />}
       </main>
 
       <nav className="bottomNav" aria-label="Primary">
@@ -1102,7 +1204,7 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
   );
 }
 
-function MotivationView({ quote }: { quote: string }) {
+function MotivationView({ quote, achievements }: { quote: string; achievements: Achievement[] }) {
   return (
     <div className="contentStack">
       <section className="sectionTitle">
@@ -1112,6 +1214,17 @@ function MotivationView({ quote }: { quote: string }) {
       <section className="bigQuote">
         <HeartPulse size={24} />
         <p>{quote}</p>
+      </section>
+      <section className="achievementSection">
+        <div className="achievementHeader"><div><p>Achievement locker</p><h3>Collect your proof</h3></div><strong>{achievements.filter((achievement) => achievement.unlocked).length}/{achievements.length} unlocked</strong></div>
+        <div className="achievementGrid">
+          {achievements.map((achievement) => (
+            <article className={`achievementCard ${achievement.unlocked ? "unlocked" : "locked"}`} key={achievement.id}>
+              <div className="achievementEmoji">{achievement.unlocked ? achievement.emoji : "🔒"}</div>
+              <div className="achievementCopy"><strong>{achievement.title}</strong><p>{achievement.description}</p><span>{achievement.progress}</span></div>
+            </article>
+          ))}
+        </div>
       </section>
       <section className="detailsBand">
         <h3>Low motivation rule</h3>
