@@ -63,8 +63,8 @@ const sessions: Session[] = [
     day: "Monday",
     title: "Front-Line Strength",
     intent: "Bench, legs, trunk pressure, and contact strength for rugby.",
-    warmup: ["5 min light jump rope", "World's greatest stretch x 5 each side", "Empty bar press x 15"],
-    cardio: "Rugby repeat-power burner: 8 rounds of 20 m sprint, 20 m backpedal, 20 m sprint. Rest 60 seconds, then 12 minutes easy jog.",
+    warmup: ["10 min easy street jog", "Rugby stance: 3 x 20 sec low brace and shoulder-set", "Lateral shuffle x 3 each side", "World's greatest stretch x 5 each side", "Empty bar press x 15"],
+    cardio: "Garage repeat-power burner: after a 10 min street jog, complete 10 rounds of 20 sec fast feet, 10 sec lateral shuffle left, 10 sec lateral shuffle right, 30 sec rest.",
     finisher: "Heavy rope: 10 rounds of 20 seconds hard, 40 seconds walk. Finish with 3 x 20 m bear crawls.",
     exercises: [
       {
@@ -139,8 +139,8 @@ const sessions: Session[] = [
     day: "Tuesday",
     title: "Engine And Feet",
     intent: "Conditioning, speed repeatability, and core control.",
-    warmup: ["3 min light rope", "High knees x 30 sec", "A-skips x 20 meters", "Hip openers x 8 each"],
-    cardio: "Rugby shuttle burner: 3 blocks of 5 x 20 m out-and-back shuttles. Rest 90 seconds between blocks; finish with 6 x 10 m reaction sprints.",
+    warmup: ["10 min easy street jog", "A-skips in place x 30 sec", "Fast feet into rugby stance x 4 rounds", "Hip openers x 8 each", "Bear crawl forward/back x 3 each"],
+    cardio: "Small-space shuttle burner: after a 10 min street jog, mark 3-5 m in the garage and do 8 rounds of 20 sec lateral shuttles, 10 sec sprawls, 30 sec rest. Finish with 6 x 10 sec reaction starts.",
     finisher: "Ab roller: 5 sets of 5 controlled reps from knees, then 4 x 30 seconds lateral line hops.",
     exercises: [
       {
@@ -202,8 +202,8 @@ const sessions: Session[] = [
     day: "Thursday",
     title: "Hinge And Carry Power",
     intent: "Posterior chain, grip, and collision-ready hips.",
-    warmup: ["5 min easy jog", "Glute bridges x 15", "Empty bar Romanian deadlift x 12"],
-    cardio: "Hill-repeat burner: 10 x 15-second uphill accelerations. Walk back fully, then 4 x 30 m heavy farmer carries with 45 seconds rest.",
+    warmup: ["10 min easy street jog", "Glute bridges x 15", "Hip-hinge reach x 10", "Bear crawl shoulder taps x 10 each", "Empty bar Romanian deadlift x 12"],
+    cardio: "Garage power burner: after a 10 min street jog, do 8 rounds of 15 sec plate march or farmer carry, 15 sec fast feet, 15 sec shadow tackle level-change, 45 sec rest.",
     finisher: "Mat core: side plank 3 x 30 seconds each side, then 3 x 12 frog pumps for glutes.",
     exercises: [
       {
@@ -278,8 +278,8 @@ const sessions: Session[] = [
     day: "Friday",
     title: "Speed Strength",
     intent: "Explosive reps, athletic movement, and durable shoulders.",
-    warmup: ["Light rope x 4 min", "Bodyweight squats x 20", "Scap push-ups x 12"],
-    cardio: "Broken-field burner: 10 x 60 m strides at 80-90 percent with walk-back recovery, then 5-10-5 change-of-direction drill x 6.",
+    warmup: ["10 min easy street jog", "Pogo hops x 20", "Lateral line hops x 20 each side", "Scap push-ups x 12", "3-point rugby start practice x 6 each side"],
+    cardio: "Garage broken-field burner: after a 10 min street jog, do 6 rounds of 20 sec lateral line hops, 20 sec broad-jump reset, 20 sec fast-feet sprint-in-place, 60 sec rest. Finish with 6 x 5 sec 3-point starts.",
     finisher: "Heavy rope: 6 minutes continuous, changing 30 seconds steady and 30 seconds hard.",
     exercises: [
       {
@@ -341,8 +341,8 @@ const sessions: Session[] = [
     day: "Saturday",
     title: "Samoa Rugby Builder",
     intent: "Longer work capacity, trunk resilience, and confidence.",
-    warmup: ["Easy jog x 8 min", "Dynamic lunges x 10 each", "Shoulder circles x 20"],
-    cardio: "Rugby engine test: 10 rounds of 2 minutes hard jog, 30 seconds walk, then 8 x 20 m carry-and-sprint efforts with full walk-back recovery.",
+    warmup: ["10 min easy street jog", "Dynamic lunges x 10 each", "Ankle pogo hops x 20", "Shoulder circles x 20", "Low rugby stance to stand x 10"],
+    cardio: "Garage rugby engine test: after a 10 min street jog, complete 10 rounds of 30 sec rope or fast feet, 20 sec bear crawl, 10 sec sprawls, 60 sec easy walk. Finish with 6 x 15 sec carry-and-sprint-in-place efforts.",
     finisher: "Write one sentence: where am I going, and what did I prove today?",
     exercises: [
       {
