@@ -42,6 +42,7 @@ type Session = {
   cardio: string;
   exercises: Exercise[];
   finisher: string;
+  stretch: string;
 };
 type CalendarCell =
   | { blank: true; key: string }
@@ -62,10 +63,11 @@ const sessions: Session[] = [
     key: "monday",
     day: "Monday",
     title: "Front-Line Strength",
-    intent: "Bench, legs, trunk pressure, and contact strength for rugby.",
-    warmup: ["10 min easy street jog", "Rugby stance: 3 x 20 sec low brace and shoulder-set", "Lateral shuffle x 3 each side", "World's greatest stretch x 5 each side", "Empty bar press x 15"],
-    cardio: "Garage repeat-power burner: after a 10 min street jog, complete 10 rounds of 20 sec fast feet, 10 sec lateral shuffle left, 10 sec lateral shuffle right, 30 sec rest.",
+    intent: "Chest, legs, trunk strength, and upper-body density for a lean athletic build.",
+    warmup: ["10 min easy street jog", "Athletic stance: 3 x 20 sec low brace and shoulder-set", "Lateral shuffle x 3 each side", "World's greatest stretch x 5 each side", "Empty bar press x 15"],
+    cardio: "Garage repeat-power burner: do this after all strength work. Complete 10 rounds of 20 sec fast feet, 10 sec lateral shuffle left, 10 sec lateral shuffle right, 30 sec rest.",
     finisher: "Heavy rope: 10 rounds of 20 seconds hard, 40 seconds walk. Finish with 3 x 20 m bear crawls.",
+    stretch: "After the finisher: 2 rounds of 30 sec each side for hip flexor, hamstring, chest, and lat stretches.",
     exercises: [
       {
         id: "bench",
@@ -73,7 +75,7 @@ const sessions: Session[] = [
         sets: 5,
         reps: "10 reps",
         load: "Start with a weight you can control. Add 2.5 kg when all sets feel solid.",
-        focus: "Upper-body power for tackles, carries, and ruck clears.",
+        focus: "Upper-body power and chest development for a lean athletic frame.",
         instructions: [
           "Plant your feet and squeeze your shoulder blades into the bench.",
           "Lower the bar to the lower chest with elbows about 45 degrees from your body.",
@@ -86,9 +88,9 @@ const sessions: Session[] = [
         sets: 5,
         reps: "8 reps",
         load: "Bar plus plates you can own with clean depth.",
-        focus: "Leg drive for scrums, carries, and repeated accelerations.",
+        focus: "Leg drive for a stronger, more defined lower body.",
         instructions: [
-          "Brace your stomach like you are about to take contact.",
+          "Brace your stomach, keep your ribs stacked, and stay controlled.",
           "Sit between your hips, keep your chest proud, and drive knees out.",
           "Stand by pushing the floor away and keep the bar path steady.",
         ],
@@ -112,7 +114,7 @@ const sessions: Session[] = [
         sets: 4,
         reps: "10 each leg",
         load: "Barbell or two dumbbells you can control without wobbling.",
-        focus: "Single-leg drive, glutes, and tackle-position strength.",
+        focus: "Single-leg drive, glutes, and athletic balance.",
         instructions: [
           "Brace tall, step back softly, and keep the front foot planted.",
           "Drop the back knee under control until the front thigh is working hard.",
@@ -125,7 +127,7 @@ const sessions: Session[] = [
         sets: 4,
         reps: "10-12 reps",
         load: "Light enough to keep elbows still and lower for 3 seconds.",
-        focus: "Biceps and arm strength for hand-fighting and ball security.",
+        focus: "Biceps size and arm definition.",
         instructions: [
           "Stand tall with ribs down and elbows close to your sides.",
           "Curl without swinging your shoulders or leaning back.",
@@ -139,9 +141,10 @@ const sessions: Session[] = [
     day: "Tuesday",
     title: "Engine And Feet",
     intent: "Conditioning, speed repeatability, and core control.",
-    warmup: ["10 min easy street jog", "A-skips in place x 30 sec", "Fast feet into rugby stance x 4 rounds", "Hip openers x 8 each", "Bear crawl forward/back x 3 each"],
-    cardio: "Small-space shuttle burner: after a 10 min street jog, mark 3-5 m in the garage and do 8 rounds of 20 sec lateral shuttles, 10 sec sprawls, 30 sec rest. Finish with 6 x 10 sec reaction starts.",
+    warmup: ["10 min easy street jog", "A-skips in place x 30 sec", "Fast feet into athletic stance x 4 rounds", "Hip openers x 8 each", "Bear crawl forward/back x 3 each"],
+    cardio: "Small-space fat-burner: do this after all strength work. Mark 3-5 m in the garage and complete 8 rounds of 20 sec lateral shuttles, 10 sec sprawls, 30 sec rest. Finish with 6 x 10 sec reaction starts.",
     finisher: "Ab roller: 5 sets of 5 controlled reps from knees, then 4 x 30 seconds lateral line hops.",
+    stretch: "After the finisher: 2 rounds of 30 sec child’s pose, hip flexor, calf, and shoulder stretches.",
     exercises: [
       {
         id: "rope",
@@ -188,7 +191,7 @@ const sessions: Session[] = [
         sets: 5,
         reps: "5-8 reps",
         load: "Use a band or chair assist. Stop before your shoulders lose position.",
-        focus: "Lats, upper back, and biceps for contact and carrying strength.",
+        focus: "Lats, upper back, and biceps for a wide, defined upper body.",
         instructions: [
           "Start from a controlled hang with your ribs tucked and shoulders active.",
           "Pull your chest toward the bar and drive elbows down.",
@@ -203,8 +206,9 @@ const sessions: Session[] = [
     title: "Hinge And Carry Power",
     intent: "Posterior chain, grip, and collision-ready hips.",
     warmup: ["10 min easy street jog", "Glute bridges x 15", "Hip-hinge reach x 10", "Bear crawl shoulder taps x 10 each", "Empty bar Romanian deadlift x 12"],
-    cardio: "Garage power burner: after a 10 min street jog, do 8 rounds of 15 sec plate march or farmer carry, 15 sec fast feet, 15 sec shadow tackle level-change, 45 sec rest.",
+    cardio: "Garage power burner: do this after all strength work. Complete 8 rounds of 15 sec plate march or farmer carry, 15 sec fast feet, 15 sec shadow squat-to-reach, 45 sec rest.",
     finisher: "Mat core: side plank 3 x 30 seconds each side, then 3 x 12 frog pumps for glutes.",
+    stretch: "After the finisher: 2 rounds of 30 sec glute, hamstring, hip flexor, and upper-back stretches.",
     exercises: [
       {
         id: "deadlift",
@@ -212,7 +216,7 @@ const sessions: Session[] = [
         sets: 5,
         reps: "5 reps",
         load: "Strong but clean. Never grind ugly reps.",
-        focus: "Hip power for tackles, carries, and mauls.",
+        focus: "Hip power for glute development and a stronger posterior chain.",
         instructions: [
           "Stand with the bar over mid-foot and brace hard.",
           "Push the floor away, keep the bar close, and lock out tall.",
@@ -251,7 +255,7 @@ const sessions: Session[] = [
         sets: 4,
         reps: "10-12 reps",
         load: "Moderate barbell load. Pause and squeeze at lockout.",
-        focus: "Glute size and hip extension for acceleration and contact power.",
+        focus: "Glute size and hip extension for a stronger, more defined lower body.",
         instructions: [
           "Set your upper back against a bench and keep your chin slightly tucked.",
           "Drive through your heels until hips are fully extended without arching your back.",
@@ -278,9 +282,10 @@ const sessions: Session[] = [
     day: "Friday",
     title: "Speed Strength",
     intent: "Explosive reps, athletic movement, and durable shoulders.",
-    warmup: ["10 min easy street jog", "Pogo hops x 20", "Lateral line hops x 20 each side", "Scap push-ups x 12", "3-point rugby start practice x 6 each side"],
-    cardio: "Garage broken-field burner: after a 10 min street jog, do 6 rounds of 20 sec lateral line hops, 20 sec broad-jump reset, 20 sec fast-feet sprint-in-place, 60 sec rest. Finish with 6 x 5 sec 3-point starts.",
+    warmup: ["10 min easy street jog", "Pogo hops x 20", "Lateral line hops x 20 each side", "Scap push-ups x 12", "Athletic three-point start practice x 6 each side"],
+    cardio: "Garage fat-loss burner: do this after all strength work. Complete 6 rounds of 20 sec lateral line hops, 20 sec broad-jump reset, 20 sec fast-feet sprint-in-place, 60 sec rest. Finish with 6 x 5 sec starts.",
     finisher: "Heavy rope: 6 minutes continuous, changing 30 seconds steady and 30 seconds hard.",
+    stretch: "After the finisher: 2 rounds of 30 sec quad, calf, chest, and shoulder stretches with slow breathing.",
     exercises: [
       {
         id: "jump",
@@ -341,9 +346,10 @@ const sessions: Session[] = [
     day: "Saturday",
     title: "Full-Body Shred Builder",
     intent: "Full-body conditioning, trunk resilience, and a leaner athletic build.",
-    warmup: ["10 min easy street jog", "Dynamic lunges x 10 each", "Ankle pogo hops x 20", "Shoulder circles x 20", "Low rugby stance to stand x 10"],
-    cardio: "Garage rugby engine test: after a 10 min street jog, complete 10 rounds of 30 sec rope or fast feet, 20 sec bear crawl, 10 sec sprawls, 60 sec easy walk. Finish with 6 x 15 sec carry-and-sprint-in-place efforts.",
+    warmup: ["10 min easy street jog", "Dynamic lunges x 10 each", "Ankle pogo hops x 20", "Shoulder circles x 20", "Low athletic stance to stand x 10"],
+    cardio: "Garage conditioning test: do this after all strength work. Complete 10 rounds of 30 sec rope or fast feet, 20 sec bear crawl, 10 sec sprawls, 60 sec easy walk. Finish with 6 x 15 sec carry-and-sprint-in-place efforts.",
     finisher: "Write one sentence: where am I going, and what did I prove today?",
+    stretch: "After the finisher: 5 minutes of relaxed full-body stretching, giving extra time to hips, hamstrings, and lats.",
     exercises: [
       {
         id: "complex",
@@ -351,7 +357,7 @@ const sessions: Session[] = [
         sets: 5,
         reps: "6 row, 6 clean pull, 6 front squat, 6 press",
         load: "Empty bar or very light plates. Do not drop the bar.",
-        focus: "Whole-body conditioning with rugby-style fatigue.",
+        focus: "Whole-body conditioning for a lean, athletic physique.",
         instructions: [
           "Move from one exercise to the next without rushing form.",
           "Keep the bar close and breathe between movements.",
@@ -364,7 +370,7 @@ const sessions: Session[] = [
         sets: 5,
         reps: "5-8 reps",
         load: "From knees. Short range is fine.",
-        focus: "Anti-extension core strength for contact.",
+        focus: "Anti-extension core strength for a tight, defined midsection.",
         instructions: [
           "Start with ribs tucked and glutes squeezed.",
           "Roll only as far as you can return without arching your back.",
@@ -413,7 +419,7 @@ const trainerCalls = [
   "No scrolling. Shoes on, warm-up started, then decide how you feel.",
   "Final set rule: if form is clean, push to technical failure. Stop before ugly reps.",
   "Tempo challenge: lower every strength rep for 3 seconds today.",
-  "Contact mindset: brace your stomach before every rep like you are taking a hit.",
+  "Core mindset: brace your stomach before every rep and keep your ribs stacked.",
   "Beat yesterday by one clean rep, one cleaner set, or one honest minute.",
   "When you want to quit, finish the current set first. Then reassess.",
   "Make the easy reps beautiful. That is how heavy reps get safer.",
@@ -422,7 +428,7 @@ const trainerCalls = [
 const sessionTwists = [
   "Power start: first working set should feel fast, not heavy.",
   "Last-set push: final set is AMRAP with clean form only.",
-  "Quiet feet: every jump, jog, and rope contact should land soft.",
+  "Quiet feet: every jump, jog, and rope landing should stay soft.",
   "Captain's standard: no skipped warm-up, no rushed cooldown.",
   "Shred engine: breathe steady even when the work gets uncomfortable.",
 ];
@@ -442,7 +448,7 @@ function getAchievements(stats: { sessions: number; totalSets: number; completed
     { id: "week-warrior", emoji: "💪", title: "Week Warrior", description: "Complete five training sessions.", progress: `${Math.min(stats.sessions, 5)}/5 sessions`, unlocked: stats.sessions >= 5 },
     { id: "one-month", emoji: "🔥", title: "30-Day Shred Block", description: "Complete your first 30-day block with 20 training sessions.", progress: `${Math.min(stats.sessions, 20)}/20 sessions`, unlocked: stats.sessions >= 20 },
     { id: "leg-drive", emoji: "🦵", title: "Leg Drive", description: "Log 50 working sets toward stronger legs.", progress: `${Math.min(stats.totalSets, 50)}/50 sets`, unlocked: stats.totalSets >= 50 },
-    { id: "rugby-engine", emoji: "⚡", title: "Rugby Engine", description: "Complete 10 rugby conditioning tasks.", progress: `${Math.min(stats.cardioTasks, 10)}/10 cardio tasks`, unlocked: stats.cardioTasks >= 10 },
+    { id: "cardio-engine", emoji: "⚡", title: "Cardio Engine", description: "Complete 10 fat-burning conditioning sessions.", progress: `${Math.min(stats.cardioTasks, 10)}/10 cardio tasks`, unlocked: stats.cardioTasks >= 10 },
     { id: "fuel-the-player", emoji: "🥗", title: "Fuel The Player", description: "Complete 20 food and hydration tasks.", progress: `${Math.min(stats.foodTasks, 20)}/20 food tasks`, unlocked: stats.foodTasks >= 20 },
     { id: "captains-run", emoji: "🏆", title: "Captain's Run", description: "Reach a seven-training-day streak.", progress: `${Math.min(stats.streak, 7)}/7 training days`, unlocked: stats.streak >= 7 },
     { id: "level-up", emoji: "🌟", title: "Level Up", description: "Reach level five.", progress: `Level ${Math.min(stats.level, 5)}/5`, unlocked: stats.level >= 5 },
@@ -966,6 +972,11 @@ function TodayView({
 }) {
   if (!session) return null;
 
+  const sessionKey = isoDate(sessionDate);
+  const warmupDone = Boolean(taskProgress[`${sessionKey}:warmup`]);
+  const cardioDone = Boolean(taskProgress[`${sessionKey}:cardio`]);
+  const finisherDone = Boolean(taskProgress[`${sessionKey}:finisher`]);
+
   return (
     <div className="contentStack">
       <section className="sessionHeader">
@@ -1001,11 +1012,12 @@ function TodayView({
       </section>
 
       <section className="taskPanel">
-        <div className="taskPanelHeader"><div><p>Daily tasks</p><h3>Finish the whole mission</h3></div><strong>+50 XP each</strong></div>
+        <div className="taskPanelHeader"><div><p>Session flow</p><h3>Complete in order</h3><small>Warm up first. Lift. Do cardio after all working sets. Finish with the finisher and stretch.</small></div><strong>+50 XP each</strong></div>
         <div className="taskCarousel">
-          <TaskRow taskKey={`${isoDate(sessionDate)}:warmup`} label="Complete warm-up" detail={session.warmup.join(" · ")} done={Boolean(taskProgress[`${isoDate(sessionDate)}:warmup`])} onToggle={onTaskToggle} />
-          <TaskRow taskKey={`${isoDate(sessionDate)}:cardio`} label="Complete cardio" detail={session.cardio} done={Boolean(taskProgress[`${isoDate(sessionDate)}:cardio`])} onToggle={onTaskToggle} />
-          <TaskRow taskKey={`${isoDate(sessionDate)}:finisher`} label="Complete finisher" detail={session.finisher} done={Boolean(taskProgress[`${isoDate(sessionDate)}:finisher`])} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:warmup`} label="1 · Warm up before lifting" detail={session.warmup.join(" · ")} done={warmupDone} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:cardio`} label="2 · Cardio after all sets" detail={session.cardio} done={cardioDone} disabled={!allDone} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:finisher`} label="3 · Finisher after cardio" detail={session.finisher} done={finisherDone} disabled={!cardioDone} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:stretch`} label="4 · Stretch after finisher" detail={session.stretch} done={Boolean(taskProgress[`${sessionKey}:stretch`])} disabled={!finisherDone} onToggle={onTaskToggle} />
         </div>
       </section>
 
@@ -1063,9 +1075,9 @@ function TodayView({
   );
 }
 
-function TaskRow({ taskKey, label, detail, done, onToggle }: { taskKey: string; label: string; detail: string; done: boolean; onToggle: (taskKey: string) => void }) {
+function TaskRow({ taskKey, label, detail, done, disabled = false, onToggle }: { taskKey: string; label: string; detail: string; done: boolean; disabled?: boolean; onToggle: (taskKey: string) => void }) {
   return (
-    <button className={`taskRow ${done ? "done" : ""}`} onClick={() => onToggle(taskKey)}>
+    <button className={`taskRow ${done ? "done" : ""} ${disabled ? "disabled" : ""}`} disabled={disabled} onClick={() => onToggle(taskKey)}>
       <span className="taskCheck">{done && <Check size={15} />}</span>
       <span className="taskCopy"><strong>{label}</strong><small>{detail}</small></span>
       <b>+50</b>
@@ -1160,13 +1172,13 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
         <Utensils size={20} />
         <div>
           <strong>Build target</strong>
-          <p>Simple food, exact portions, high protein. This supports a bigger rugby frame while still keeping conditioning possible.</p>
+          <p>Simple food, exact portions, and high protein to support a leaner, more defined athletic frame.</p>
           <span>Adjust rice up on hard training days and slightly down on rest days.</span>
         </div>
       </section>
 
       <section className="taskPanel foodTasks">
-        <div className="taskPanelHeader"><div><p>Daily food tasks</p><h3>Fuel the player</h3></div><strong>+50 XP each</strong></div>
+        <div className="taskPanelHeader"><div><p>Nutrition checklist</p><h3>Fuel the physique</h3></div><strong>+50 XP each</strong></div>
         <div className="taskCarousel">
           {meals.map((meal) => {
             const taskKey = `${todayKey}:food:${meal.name.toLowerCase()}`;

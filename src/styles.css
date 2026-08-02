@@ -760,6 +760,7 @@ button { cursor: pointer; }
 .taskPanelHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
 .taskPanelHeader p { margin: 0 0 4px; color: var(--acid); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .taskPanelHeader h3 { margin: 0; color: var(--ink); font-size: 1.22rem; }
+.taskPanelHeader small { display: block; max-width: 33ch; margin-top: 6px; color: var(--muted); font-size: .74rem; line-height: 1.4; }
 .taskPanelHeader > strong { color: var(--orange); font-size: .72rem; white-space: nowrap; }
 .taskRow { display: flex; align-items: center; gap: 11px; width: 100%; padding: 14px 16px; border-bottom: 1px solid var(--line); color: var(--ink); background: transparent; text-align: left; }
 .taskRow:last-child { border-bottom: 0; }
@@ -770,6 +771,8 @@ button { cursor: pointer; }
 .taskCopy strong { color: var(--ink); font-size: .9rem; }
 .taskCopy small { overflow: hidden; color: var(--muted); font-size: .74rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
 .taskRow.done .taskCopy strong { color: var(--acid); text-decoration: line-through; }
+.taskRow.disabled { cursor: not-allowed; opacity: .45; }
+.taskRow.disabled .taskCopy strong { color: var(--muted); }
 .taskRow > b { margin-left: auto; color: var(--orange); font-size: .72rem; }
 .foodTasks { margin-bottom: 0; }
 .taskCarousel { display: flex; gap: 10px; overflow-x: auto; padding: 12px 16px 16px; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
