@@ -708,6 +708,7 @@ button { cursor: pointer; }
 .metric { min-height: 76px; padding: 13px; }
 .metric span { color: var(--muted); text-transform: uppercase; font-size: .66rem; letter-spacing: .06em; }
 .metric strong { color: var(--ink); font-size: 1.15rem; }
+.goalNote { margin: 12px 0 0; color: var(--muted); font-size: .74rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
 .missionBar { display: flex; align-items: center; gap: 11px; margin-top: 14px; padding: 13px; border: 1px solid #536b32; border-radius: 16px; background: linear-gradient(110deg, #263620, #192219); }
 .missionIcon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; color: #101512; background: var(--acid); }
 .missionBar div:nth-child(2) { min-width: 0; display: grid; gap: 3px; }

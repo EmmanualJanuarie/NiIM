@@ -339,8 +339,8 @@ const sessions: Session[] = [
   {
     key: "saturday",
     day: "Saturday",
-    title: "Samoa Rugby Builder",
-    intent: "Longer work capacity, trunk resilience, and confidence.",
+    title: "Full-Body Shred Builder",
+    intent: "Full-body conditioning, trunk resilience, and a leaner athletic build.",
     warmup: ["10 min easy street jog", "Dynamic lunges x 10 each", "Ankle pogo hops x 20", "Shoulder circles x 20", "Low rugby stance to stand x 10"],
     cardio: "Garage rugby engine test: after a 10 min street jog, complete 10 rounds of 30 sec rope or fast feet, 20 sec bear crawl, 10 sec sprawls, 60 sec easy walk. Finish with 6 x 15 sec carry-and-sprint-in-place efforts.",
     finisher: "Write one sentence: where am I going, and what did I prove today?",
@@ -389,7 +389,7 @@ const sessions: Session[] = [
 ];
 
 const quotes = [
-  "Nothing is impossible. Today is one step closer to Samoa.",
+  "Nothing is impossible. Today is one step closer to the body you are building.",
   "You are not training for a mirror. You are building a body that can answer the call.",
   "Small honest sessions become a different man over two years.",
   "When motivation drops, keep the promise smaller: one set, then another.",
@@ -424,7 +424,7 @@ const sessionTwists = [
   "Last-set push: final set is AMRAP with clean form only.",
   "Quiet feet: every jump, jog, and rope contact should land soft.",
   "Captain's standard: no skipped warm-up, no rushed cooldown.",
-  "Samoa engine: breathe steady even when the work gets uncomfortable.",
+  "Shred engine: breathe steady even when the work gets uncomfortable.",
 ];
 
 type Achievement = {
@@ -440,7 +440,7 @@ function getAchievements(stats: { sessions: number; totalSets: number; completed
   return [
     { id: "first-whistle", emoji: "🏉", title: "First Whistle", description: "Complete your first training session.", progress: `${Math.min(stats.sessions, 1)}/1 session`, unlocked: stats.sessions >= 1 },
     { id: "week-warrior", emoji: "💪", title: "Week Warrior", description: "Complete five training sessions.", progress: `${Math.min(stats.sessions, 5)}/5 sessions`, unlocked: stats.sessions >= 5 },
-    { id: "one-month", emoji: "🔥", title: "One Month Consistency", description: "Build a 20-session training month.", progress: `${Math.min(stats.sessions, 20)}/20 sessions`, unlocked: stats.sessions >= 20 },
+    { id: "one-month", emoji: "🔥", title: "30-Day Shred Block", description: "Complete your first 30-day block with 20 training sessions.", progress: `${Math.min(stats.sessions, 20)}/20 sessions`, unlocked: stats.sessions >= 20 },
     { id: "leg-drive", emoji: "🦵", title: "Leg Drive", description: "Log 50 working sets toward stronger legs.", progress: `${Math.min(stats.totalSets, 50)}/50 sets`, unlocked: stats.totalSets >= 50 },
     { id: "rugby-engine", emoji: "⚡", title: "Rugby Engine", description: "Complete 10 rugby conditioning tasks.", progress: `${Math.min(stats.cardioTasks, 10)}/10 cardio tasks`, unlocked: stats.cardioTasks >= 10 },
     { id: "fuel-the-player", emoji: "🥗", title: "Fuel The Player", description: "Complete 20 food and hydration tasks.", progress: `${Math.min(stats.foodTasks, 20)}/20 food tasks`, unlocked: stats.foodTasks >= 20 },
@@ -465,35 +465,35 @@ const meals: Meal[] = [
   },
   {
     name: "Lunch",
-    goal: "Main build meal for a Samoan rugby frame: high protein, enough rice, and vegetables.",
+    goal: "Midday tea reset: keep it simple, unsweetened, and hydrating.",
     items: [
-      "2 chicken breasts, about 300-360 g raw total",
-      "100 g dry white rice, cooked into about 300 g rice",
-      "2 cups vegetables, about 160-200 g",
-      "1 tsp olive oil, about 5 ml, for cooking or over vegetables",
+      "1-2 cups rooibos tea",
+      "No sugar",
+      "No milk",
+      "Drink water alongside it",
     ],
-    prep: "Grill, pan-cook, or bake the chicken. Keep rice plain most days. Add vegetables when you have them; green pepper, tomato, mixed veg, cabbage, or spinach all work.",
-    macros: "About 850-950 kcal, 80-95 g protein, 90 g carbs, 15-20 g fat.",
+    prep: "Steep rooibos for 5-7 minutes. This is a light tea break, not a performance meal; add a simple protein snack if training, hunger, or energy levels call for it.",
+    macros: "Unsweetened rooibos is about 0-5 kcal and caffeine-free.",
   },
   {
     name: "Dinner",
-    goal: "Recover without overeating: protein, rice, and vegetables to refill for tomorrow.",
+    goal: "Main recovery plate: two pieces of meat, vegetables, and measured rice.",
     items: [
-      "1 chicken breast, about 150-180 g raw",
-      "80 g dry white rice, cooked into about 240 g rice",
+      "2 pieces of lean meat, such as chicken, fish, lean beef, or pork",
+      "80-100 g dry rice, cooked into a measured portion",
       "2 cups vegetables, about 160-200 g",
-      "1 tsp olive oil, about 5 ml, if the meal feels too dry",
+      "1 tsp olive oil, about 5 ml, if needed",
     ],
-    prep: "Use the same chicken and rice base as lunch. If training was brutal, keep the full rice portion. On rest days, use 60 g dry rice instead.",
-    macros: "About 570-680 kcal, 45-55 g protein, 72 g carbs, 8-14 g fat.",
+    prep: "Grill, bake, or pan-cook the meat. Fill half the plate with vegetables, then use rice to fuel recovery. Keep the portions consistent while your body composition changes.",
+    macros: "Roughly 650-850 kcal depending on the meat and rice portion; prioritize protein and vegetables.",
   },
 ];
 
 const dailyFoodNotes = [
-  "Daily target: roughly 2,000-2,300 kcal from these meals before snacks. Adjust up if weight drops too fast or training feels flat.",
+  "Body-recomposition target: use consistent portions and adjust based on energy, recovery, and weekly progress rather than crash dieting.",
   "Protein target: aim for 190-220 g per day. If these meals leave you short, add 2 boiled eggs or another chicken breast.",
-  "For the rugby build, keep rice around training. It fuels lifting, jogging, rope work, and recovery.",
-  "Hydration: 2.5-3.5 L water daily, more when Samoa-style heat or hard cardio hits.",
+  "For a shredded build, keep the rice portion around training and let vegetables take up most of the dinner plate.",
+  "Hydration: 2.5-3.5 L water daily, especially after the jog and garage cardio.",
 ];
 
 const dayKeys = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -731,7 +731,7 @@ export default function App() {
           <div className="heroTitleRow">
             <div>
               <p className="eyebrow">Nothing is impossible</p>
-              <h1>Build the body that answers the call.</h1>
+              <h1>Build a shredded, athletic body.</h1>
             </div>
             <div className="levelBadge"><Award size={18} /><span>LVL {stats.level}</span></div>
           </div>
@@ -743,8 +743,9 @@ export default function App() {
             <Metric label="Current streak" value={`${stats.streak} days`} />
             <Metric label="Rank" value={stats.level >= 5 ? "Starter" : "Rookie"} />
             <Metric label="Journey" value={journeyLabel} />
-            <Metric label="Days to Samoa" value={String(daysLeft)} />
+            <Metric label="Days to goal" value={String(daysLeft)} />
           </div>
+          <p className="goalNote">Body-recomposition target · 178-180 cm · 110 kg starting point</p>
         </section>
 
         <section className="missionBar">
@@ -1230,7 +1231,7 @@ function MotivationView({ quote, achievements }: { quote: string; achievements: 
         <h3>Low motivation rule</h3>
         <p>Do the warm-up and the first set. After that, you can choose. Most days, starting is enough to wake the rest of you up.</p>
         <h3>Direction</h3>
-        <p>You are training for Samoa in 2028. The app starts Monday, August 03, 2026 and points to October 31, 2028.</p>
+        <p>You are building a shredded, athletic body at 178-180 cm and 110 kg. The journey starts Monday, August 03, 2026 and points to October 31, 2028.</p>
       </section>
     </div>
   );
