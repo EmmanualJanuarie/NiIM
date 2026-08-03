@@ -42,7 +42,8 @@ type Session = {
   cardio: string;
   exercises: Exercise[];
   finisher: string;
-  stretch: string;
+  stretch?: string;
+  morningJog?: string;
 };
 type CalendarCell =
   | { blank: true; key: string }
@@ -58,7 +59,7 @@ type Meal = {
 const startDate = new Date("2026-08-03T00:00:00");
 const targetDate = new Date("2028-10-31T00:00:00");
 
-const sessions: Session[] = [
+const legacySessions: Session[] = [
   {
     key: "monday",
     day: "Monday",
@@ -394,6 +395,85 @@ const sessions: Session[] = [
   },
 ];
 
+const sessions: Session[] = [
+  {
+    key: "monday",
+    day: "Monday",
+    title: "Upper Body Density",
+    intent: "Chest, back, shoulders, arms, and forearms for a wider, more defined upper body.",
+    morningJog: "10 minutes easy outside before breakfast or before the gym session.",
+    warmup: ["Arm circles x 20 each way", "Scapular push-ups x 12", "Cat-cow x 8", "Child's pose to cobra x 6", "Empty-bar bench press x 15"],
+    cardio: "No separate cardio block today. Keep the focus on quality upper-body muscle work.",
+    finisher: "After all six exercises: light jump rope for 100 skips x 5 sets, resting 60-90 seconds between sets.",
+    stretch: "After cardio: 2 rounds of 30 sec chest doorway stretch, child\'s pose, cobra, lat stretch, and triceps stretch.",
+    exercises: [
+      { id: "mon-bench", name: "Barbell Bench Press", sets: 4, reps: "8-12 reps", load: "Use a controlled weight. Leave 1-2 clean reps in reserve.", focus: "Chest thickness and pressing strength.", instructions: ["Set feet firmly and squeeze shoulder blades into the bench.", "Lower to the lower chest with elbows about 45 degrees from the body.", "Press smoothly without bouncing or lifting the hips."] },
+      { id: "mon-row", name: "Barbell Bent Row", sets: 4, reps: "8-12 reps", load: "Moderate weight with no swinging.", focus: "Back width and mid-back density.", instructions: ["Hinge with a long spine and brace your stomach.", "Pull toward the lower ribs and pause briefly.", "Lower slowly until the arms are straight."] },
+      { id: "mon-press", name: "Standing Barbell Press", sets: 3, reps: "8-10 reps", load: "Light enough to keep ribs down and avoid leaning back.", focus: "Shoulder size and overhead strength.", instructions: ["Squeeze glutes and brace before every rep.", "Press the bar past your face and finish with biceps near ears.", "Lower under control to the shoulders."] },
+      { id: "mon-close", name: "Close-Grip Bench Press", sets: 3, reps: "8-12 reps", load: "Use less than your normal bench weight.", focus: "Triceps size and inner-chest pressing.", instructions: ["Use a grip just inside shoulder width.", "Keep elbows close as the bar lowers to the lower chest.", "Press without letting the shoulders roll forward."] },
+      { id: "mon-curl", name: "Barbell Curl", sets: 4, reps: "10-12 reps", load: "Light enough to keep elbows still and lower for 3 seconds.", focus: "Biceps size and arm definition.", instructions: ["Stand tall with elbows fixed beside the ribs.", "Curl without swinging or leaning back.", "Lower fully and squeeze the biceps at the top."] },
+      { id: "mon-lateral", name: "Dumbbell Lateral Raise", sets: 3, reps: "12-15 reps", load: "Use the 4 kg or 6 kg dumbbells with strict control.", focus: "Shoulder width and capped delts.", instructions: ["Keep a soft bend in the elbows and ribs stacked.", "Raise to shoulder height without shrugging.", "Lower for 2-3 seconds."] },
+    ],
+  },
+  {
+    key: "tuesday",
+    day: "Tuesday",
+    title: "Legs, Glutes and Core",
+    intent: "Progressive lower-body muscle with a tight, strong midsection.",
+    morningJog: "10 minutes easy outside before the lower-body session.",
+    warmup: ["Bodyweight squats x 15", "Glute bridges x 15", "Reverse lunges x 8 each leg", "Child's pose to cobra x 6", "Hip openers x 8 each side"],
+    cardio: "Post-strength fat-loss circuit: after all six exercises, complete 10 rounds of 20 sec fast feet, 10 sec lateral shuffle left, 20 sec lateral shuffle right, and 30 sec rest. Walk for 30 sec, then finish with 3 x 20 m bear crawls, or 10 m out-and-back if space is limited.",
+    finisher: "No separate high-impact finisher: keep the lower body recoverable and complete the stretch cooldown.",
+    stretch: "After cardio: 2 rounds of 30 sec hip flexor, quad, hamstring, calf, glute, and cobra stretches.",
+    exercises: [
+      { id: "tue-squat", name: "Back Squat", sets: 4, reps: "8-10 reps", load: "Start with the empty bar or your lowest safe 15 kg setup. Add weight only when every rep is controlled.", focus: "Thigh and glute muscle with a gradual strength base.", instructions: ["Brace before descending and keep the whole foot planted.", "Sit between the hips to a depth you can control.", "Drive up smoothly without collapsing the knees."] },
+      { id: "tue-rdl", name: "Romanian Deadlift", sets: 4, reps: "8-12 reps", load: "Moderate barbell load; stop before the back rounds.", focus: "Hamstrings, glutes, and lower-back strength.", instructions: ["Push hips back with a soft knee bend.", "Keep the bar close and feel the hamstrings load.", "Stand by driving the hips forward and squeezing the glutes."] },
+      { id: "tue-split", name: "Reverse Lunge", sets: 3, reps: "10 each leg", load: "Bodyweight or hold the 4 kg dumbbells first.", focus: "Thigh and glute definition with single-leg control.", instructions: ["Step back quietly and keep the front foot planted.", "Lower until the front leg is working without losing balance.", "Drive through the front foot to stand tall."] },
+      { id: "tue-hip", name: "Barbell Hip Thrust", sets: 4, reps: "10-15 reps", load: "Moderate load with a full pause at the top.", focus: "Glute size and hip extension.", instructions: ["Set your upper back on the bench and keep ribs down.", "Drive through the heels until hips are fully extended.", "Pause for one second, then lower under control."] },
+      { id: "tue-calf", name: "Standing Calf Raise", sets: 5, reps: "15-20 reps", load: "Hold dumbbells or use a light barbell.", focus: "Calf size and ankle strength.", instructions: ["Use a wall or bench for balance.", "Drop the heels under control and pause in the stretch.", "Rise as high as possible and squeeze the calves."] },
+      { id: "tue-ab", name: "Ab Roller", sets: 4, reps: "5-10 reps", load: "From knees; shorten the range if the back arches.", focus: "Core control and a tighter waistline.", instructions: ["Tuck the ribs and squeeze the glutes before rolling.", "Roll only as far as you can return without arching.", "Pull the wheel back using the abs, not the lower back."] },
+    ],
+  },
+  {
+    key: "thursday",
+    day: "Thursday",
+    title: "Back, Arms and Shoulders",
+    intent: "Back width, biceps, triceps, forearms, and shoulder detail.",
+    morningJog: "10 minutes easy outside before the upper-body session.",
+    warmup: ["Arm circles x 20 each way", "Scapular push-ups x 12", "Dead hang practice x 15 sec", "Child's pose to cobra x 6", "Empty-bar rows x 15"],
+    cardio: "No separate cardio block today. Keep the focus on quality upper-body muscle work.",
+    finisher: "After all six exercises: light jump rope for 100 skips x 5 sets, resting 60-90 seconds between sets.",
+    stretch: "After the finisher: 2 rounds of 30 sec lat, chest, biceps, triceps, forearm, and upper-back stretches.",
+    exercises: [
+      { id: "thu-floor", name: "Barbell Floor Press", sets: 4, reps: "8-12 reps", load: "Moderate load with a one-second pause when triceps touch the floor.", focus: "Chest and triceps thickness.", instructions: ["Keep feet planted and wrists stacked over elbows.", "Pause lightly on the floor without relaxing.", "Press up while keeping shoulders packed."] },
+      { id: "thu-row", name: "Barbell Bent Row", sets: 5, reps: "8-12 reps", load: "Use a weight you can hold without torso movement.", focus: "Big back density and lat development.", instructions: ["Hinge and brace before pulling.", "Pull elbows toward the ribs and pause.", "Lower slowly and keep the neck neutral."] },
+      { id: "thu-curl", name: "Alternating Dumbbell Curl", sets: 4, reps: "10-12 each arm", load: "Use the 4 kg or 6 kg dumbbells with a slow lowering phase.", focus: "Biceps peak and arm symmetry.", instructions: ["Keep the upper arm still beside the torso.", "Rotate the palm up as you curl.", "Lower completely before switching sides."] },
+      { id: "thu-reverse", name: "Reverse Barbell Curl", sets: 3, reps: "12-15 reps", load: "Use the smaller barbell and a light load.", focus: "Forearms and brachialis for thicker arms.", instructions: ["Use an overhand grip and keep wrists straight.", "Curl without swinging the elbows forward.", "Lower slowly and keep tension in the forearms."] },
+      { id: "thu-lateral", name: "Dumbbell Lateral Raise", sets: 4, reps: "12-15 reps", load: "Use the 4 kg dumbbells first; move to 6 kg only with strict form.", focus: "Shoulder width and definition.", instructions: ["Lead with the elbows and keep shoulders down.", "Stop at shoulder height.", "Lower slowly without resting between reps."] },
+      { id: "thu-triceps", name: "Close-Grip Push-Up", sets: 4, reps: "8-15 reps", load: "Use a bench incline if full floor reps break down.", focus: "Triceps size and pressing endurance.", instructions: ["Place hands just inside shoulder width.", "Keep ribs down and elbows close.", "Press the floor away while keeping the body in one line."] },
+    ],
+  },
+  {
+    key: "friday",
+    day: "Friday",
+    title: "Legs, Glutes and Core II",
+    intent: "Lower-body volume, glute shape, calves, and core conditioning.",
+    morningJog: "10 minutes easy outside before the lower-body session.",
+    warmup: ["Bodyweight squats x 15", "Dynamic lunges x 8 each leg", "Ankle pogo hops x 20", "Glute bridges x 15", "Child's pose to cobra x 6"],
+    cardio: "Post-strength fat-loss circuit: after all six exercises, complete 10 rounds of 20 sec fast feet, 10 sec lateral shuffle left, 20 sec lateral shuffle right, and 30 sec rest. Walk for 30 sec, then finish with 3 x 20 m bear crawls, or 10 m out-and-back if space is limited.",
+    finisher: "No separate high-impact finisher: keep the lower body recoverable and complete the stretch cooldown.",
+    stretch: "After cardio: 2 rounds of 30 sec quad, hamstring, hip flexor, glute, calf, and lower-back stretches.",
+    exercises: [
+      { id: "fri-squat", name: "Tempo Back Squat", sets: 4, reps: "8-10 reps", load: "Start with your lowest safe 15 kg setup and use a 3-second descent.", focus: "Thigh and glute growth with controlled progression.", instructions: ["Brace and descend for three controlled seconds.", "Pause briefly at the depth you own.", "Drive up without bouncing or losing foot pressure."] },
+      { id: "fri-deadlift", name: "Barbell Deadlift", sets: 4, reps: "5-8 reps", load: "Strong but clean; stop before form slows or rounds.", focus: "Posterior-chain size and lower-back strength.", instructions: ["Set the bar over mid-foot and brace hard.", "Push the floor away and keep the bar close.", "Lock out tall without leaning backward."] },
+      { id: "fri-step", name: "Bench Step-Up", sets: 3, reps: "10 each leg", load: "Bodyweight or 4 kg dumbbells; use a stable bench.", focus: "Glutes, thighs, and single-leg control.", instructions: ["Place the whole foot on the bench.", "Drive through the top leg instead of jumping from the floor.", "Lower slowly and keep the knee tracking over the toes."] },
+      { id: "fri-glute", name: "Single-Leg Glute Bridge", sets: 4, reps: "12 each leg", load: "Bodyweight; add a light plate only when stable.", focus: "Glute shape and hip stability.", instructions: ["Keep ribs down and one heel planted.", "Lift the hips without twisting.", "Pause at the top and lower slowly."] },
+      { id: "fri-calf", name: "Seated Calf Raise", sets: 5, reps: "15-20 reps", load: "Place a light plate or dumbbell on the knees.", focus: "Calf size through a full range.", instructions: ["Lower the heels slowly into the stretch.", "Rise high and pause at the top.", "Keep the movement controlled rather than bouncing."] },
+      { id: "fri-core", name: "Dead Bug or Ab Roller", sets: 4, reps: "8-12 each side or 5-10 rolls", load: "Choose the version that keeps the lower back controlled.", focus: "Core strength for a tighter midsection.", instructions: ["Press the lower back gently toward the mat.", "Move slowly and exhale as the limbs extend.", "Stop before the ribs flare or the back arches."] },
+    ],
+  },
+];
+
 const quotes = [
   "Nothing is impossible. Today is one step closer to the body you are building.",
   "You are not training for a mirror. You are building a body that can answer the call.",
@@ -405,7 +485,7 @@ const quotes = [
 
 const challenges = [
   "Complete every warm-up this week without skipping.",
-  "Add 5 total minutes to Saturday cardio.",
+  "Add 5 total minutes to your weekly conditioning.",
   "Hold the dead hang for 5 seconds longer than last week.",
   "Finish one session even when motivation is low.",
   "Keep every barbell rep clean. Quality is the win.",
@@ -973,9 +1053,10 @@ function TodayView({
   if (!session) return null;
 
   const sessionKey = isoDate(sessionDate);
+  const cardioRequired = session.key === "tuesday" || session.key === "friday";
   const warmupDone = Boolean(taskProgress[`${sessionKey}:warmup`]);
   const cardioDone = Boolean(taskProgress[`${sessionKey}:cardio`]);
-  const finisherDone = Boolean(taskProgress[`${sessionKey}:finisher`]);
+  const stretchReady = cardioRequired ? cardioDone : allDone;
 
   return (
     <div className="contentStack">
@@ -1012,12 +1093,11 @@ function TodayView({
       </section>
 
       <section className="taskPanel">
-        <div className="taskPanelHeader"><div><p>Session flow</p><h3>Complete in order</h3><small>Warm up first. Lift. Do cardio after all working sets. Finish with the finisher and stretch.</small></div><strong>+50 XP each</strong></div>
+        <div className="taskPanelHeader"><div><p>Session flow</p><h3>Complete in order</h3><small>Morning jog, then area warm-up. Finish all strength sets before the cooldown stretch.</small></div><strong>+50 XP each</strong></div>
         <div className="taskCarousel">
-          <TaskRow taskKey={`${sessionKey}:warmup`} label="1 · Warm up before lifting" detail={session.warmup.join(" · ")} done={warmupDone} onToggle={onTaskToggle} />
-          <TaskRow taskKey={`${sessionKey}:cardio`} label="2 · Cardio after all sets" detail={session.cardio} done={cardioDone} disabled={!allDone} onToggle={onTaskToggle} />
-          <TaskRow taskKey={`${sessionKey}:finisher`} label="3 · Finisher after cardio" detail={session.finisher} done={finisherDone} disabled={!cardioDone} onToggle={onTaskToggle} />
-          <TaskRow taskKey={`${sessionKey}:stretch`} label="4 · Stretch after finisher" detail={session.stretch} done={Boolean(taskProgress[`${sessionKey}:stretch`])} disabled={!finisherDone} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:morning-jog`} label="1 · Morning jog" detail={session.morningJog ?? "10 minutes easy outside."} done={Boolean(taskProgress[`${sessionKey}:morning-jog`])} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:warmup`} label="2 · Warm up before lifting" detail={session.warmup.join(" · ")} done={warmupDone} onToggle={onTaskToggle} />
+          <TaskRow taskKey={`${sessionKey}:stretch`} label="3 · Stretch after the session" detail={session.stretch ?? "Complete 5 minutes of relaxed full-body stretching."} done={Boolean(taskProgress[`${sessionKey}:stretch`])} disabled={!stretchReady} onToggle={onTaskToggle} />
         </div>
       </section>
 
@@ -1068,6 +1148,22 @@ function TodayView({
         })}
       </div>
 
+      {cardioRequired && (
+        <section className="cardioCard">
+          <div className="cardioCardHeader"><div><p>Cardio workout card</p><h3>Do this after all six exercises</h3></div><strong>+50 XP</strong></div>
+          <p>{session.cardio}</p>
+          <TaskRow taskKey={`${sessionKey}:cardio`} label="Complete post-strength cardio" detail="Only check this after every strength exercise is complete." done={cardioDone} disabled={!allDone} onToggle={onTaskToggle} />
+        </section>
+      )}
+
+      {!cardioRequired && (
+        <section className="finisherCard">
+          <p>Finisher after all six exercises</p>
+          <h3>Light jump rope</h3>
+          <span>{session.finisher}</span>
+        </section>
+      )}
+
       <button className="finishButton" disabled={!allDone} onClick={onDone}>
         {allDone ? "Claim session reward · +500 XP" : "Complete all sets to unlock reward"}
       </button>
@@ -1090,7 +1186,7 @@ function ProgramView() {
     <div className="contentStack">
       <section className="sectionTitle">
         <p>Weekly split</p>
-        <h2>Five training days. Two real rest days.</h2>
+        <h2>Four training days. Three real rest days.</h2>
       </section>
       {sessions.map((session) => (
         <article className="programCard" key={session.key}>
@@ -1153,7 +1249,7 @@ function CalendarView({ completedSessions, today }: { completedSessions: Record<
         <div className="miniIcon"><Timer size={18} /></div>
         <div>
           <strong>Training days</strong>
-          <p>Monday, Tuesday, Thursday, Friday, Saturday. Wednesday and Sunday are rest days.</p>
+          <p>Monday, Tuesday, Thursday, and Friday are training days. Wednesday, Saturday, and Sunday are rest days.</p>
         </div>
       </section>
     </div>

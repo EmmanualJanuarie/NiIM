@@ -799,3 +799,10 @@ button { cursor: pointer; }
 .achievementCopy strong { color: var(--ink); font-size: .9rem; }
 .achievementCopy p { margin: 0; color: var(--muted); font-size: .75rem; line-height: 1.35; }
 .achievementCopy span { color: var(--acid); font-size: .68rem; font-weight: 900; text-transform: uppercase; }
+.cardioCard, .finisherCard { display: grid; gap: 10px; padding: 16px; border: 1px solid #536b32; border-radius: 16px; background: #263620; box-shadow: 0 14px 28px rgba(0,0,0,.14); }
+.cardioCardHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.cardioCardHeader p, .finisherCard > p { margin: 0; color: var(--acid); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.cardioCardHeader h3, .finisherCard h3 { margin: 5px 0 0; color: var(--ink); font-size: 1.2rem; }
+.cardioCardHeader strong { color: var(--orange); font-size: .72rem; white-space: nowrap; }
+.cardioCard > p, .finisherCard > span { margin: 0; color: var(--ink); font-size: .86rem; line-height: 1.5; }
+.cardioCard .taskRow { margin-top: 2px; border: 1px solid #536b32; border-radius: 13px; background: var(--panel-strong); }
