@@ -7,7 +7,6 @@ import {
   Database,
   Dumbbell,
   Flame,
-  HeartPulse,
   Home,
   Lock,
   LogOut,
@@ -15,7 +14,6 @@ import {
   ShieldCheck,
   Sparkles,
   Timer,
-  Trophy,
   Utensils,
   Zap,
 } from "lucide-react";
@@ -23,7 +21,7 @@ import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-type Tab = "today" | "program" | "food" | "calendar" | "motivate";
+type Tab = "today" | "program" | "food" | "calendar";
 type Exercise = {
   id: string;
   name: string;
@@ -679,7 +677,7 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
   const completedTasks = Object.values(taskProgress).filter(Boolean).length;
   const cardioTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.endsWith(":obliques")).length;
   const foodTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.includes(":food:")).length;
-  const xp = completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
+  const xp = 26000 + completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
   const level = Math.floor(xp / 1000) + 1;
   const levelProgress = xp % 1000;
   let streak = 0;
@@ -761,6 +759,7 @@ export default function App() {
   const journeyLabel = journeyOffset < 0 ? `Starts in ${Math.abs(journeyOffset)}d` : `Day ${journeyOffset + 1}`;
   const daysLeft = Math.max(0, daysBetween(today, targetDate));
   const stats = getTrainingStats(completedSessions, setCounts, taskProgress, today);
+  const achievements = getAchievements(stats);
 
   const sessionForCard = todaySession ?? nextTraining?.session;
   const sessionDate = todaySession ? today : nextTraining?.date ?? today;
@@ -891,13 +890,13 @@ export default function App() {
             stats={stats}
             taskProgress={taskProgress}
             onTaskToggle={toggleTask}
+            achievements={achievements}
           />
         )}
 
         {activeTab === "program" && <ProgramView />}
         {activeTab === "food" && <FoodView todayKey={todayKey} taskProgress={taskProgress} onTaskToggle={toggleTask} />}
         {activeTab === "calendar" && <CalendarView completedSessions={completedSessions} today={today} />}
-        {activeTab === "motivate" && <MotivationView quote={quote} achievements={getAchievements(stats)} />}
       </main>
 
       <nav className="bottomNav" aria-label="Primary">
@@ -905,7 +904,6 @@ export default function App() {
         <NavButton icon={<Dumbbell size={20} />} label="Split" active={activeTab === "program"} onClick={() => setActiveTab("program")} />
         <NavButton icon={<Utensils size={20} />} label="Food" active={activeTab === "food"} onClick={() => setActiveTab("food")} />
         <NavButton icon={<CalendarDays size={20} />} label="Calendar" active={activeTab === "calendar"} onClick={() => setActiveTab("calendar")} />
-        <NavButton icon={<Trophy size={20} />} label="Drive" active={activeTab === "motivate"} onClick={() => setActiveTab("motivate")} />
       </nav>
 
       <aside className="desktopBlock">
@@ -1053,6 +1051,7 @@ function TodayView({
   stats,
   taskProgress,
   onTaskToggle,
+  achievements,
 }: {
   completeToday: boolean;
   session?: Session;
@@ -1070,6 +1069,7 @@ function TodayView({
   stats: { xp: number; level: number; levelProgress: number; streak: number; totalSets: number; sessions: number; completedTasks: number };
   taskProgress: Record<string, boolean>;
   onTaskToggle: (taskKey: string) => void;
+  achievements: Achievement[];
 }) {
   if (!session) return null;
 
@@ -1195,6 +1195,7 @@ function TodayView({
       <button className="finishButton" disabled={!allDone} onClick={onDone}>
         {allDone ? "Claim session reward · +500 XP" : "Complete all sets to unlock reward"}
       </button>
+      <AchievementLocker achievements={achievements} />
     </div>
   );
 }
@@ -1341,35 +1342,19 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
   );
 }
 
-function MotivationView({ quote, achievements }: { quote: string; achievements: Achievement[] }) {
+function AchievementLocker({ achievements }: { achievements: Achievement[] }) {
   return (
-    <div className="contentStack">
-      <section className="sectionTitle">
-        <p>Drive</p>
-        <h2>When you feel low, shrink the task and keep the promise.</h2>
-      </section>
-      <section className="bigQuote">
-        <HeartPulse size={24} />
-        <p>{quote}</p>
-      </section>
-      <section className="achievementSection">
-        <div className="achievementHeader"><div><p>Achievement locker</p><h3>Collect your proof</h3></div><strong>{achievements.filter((achievement) => achievement.unlocked).length}/{achievements.length} unlocked</strong></div>
-        <div className="achievementGrid">
-          {achievements.map((achievement) => (
-            <article className={`achievementCard ${achievement.unlocked ? "unlocked" : "locked"}`} key={achievement.id}>
-              <div className="achievementEmoji">{achievement.unlocked ? achievement.emoji : "🔒"}</div>
-              <div className="achievementCopy"><strong>{achievement.title}</strong><p>{achievement.description}</p><span>{achievement.progress}</span></div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="detailsBand">
-        <h3>Low motivation rule</h3>
-        <p>Do the warm-up and the first set. After that, you can choose. Most days, starting is enough to wake the rest of you up.</p>
-        <h3>Direction</h3>
-        <p>You are building a shredded, athletic body at 178-180 cm and 110 kg. The journey starts Monday, August 03, 2026 and points to October 31, 2028.</p>
-      </section>
-    </div>
+    <section className="achievementSection">
+      <div className="achievementHeader"><div><p>Achievement locker</p><h3>Collect your proof</h3></div><strong>{achievements.filter((achievement) => achievement.unlocked).length}/{achievements.length} unlocked</strong></div>
+      <div className="achievementGrid">
+        {achievements.map((achievement) => (
+          <article className={`achievementCard ${achievement.unlocked ? "unlocked" : "locked"}`} key={achievement.id}>
+            <div className="achievementEmoji">{achievement.unlocked ? achievement.emoji : "🔒"}</div>
+            <div className="achievementCopy"><strong>{achievement.title}</strong><p>{achievement.description}</p><span>{achievement.progress}</span></div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
