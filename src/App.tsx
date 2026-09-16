@@ -428,11 +428,9 @@ const sessions: Session[] = [
     finisher: "After oblique work: 2 minutes easy walking and slow nasal breathing, then begin the stretch cooldown.",
     stretch: "After cardio: 2 rounds of 30 sec hip flexor, quad, hamstring, calf, glute, and cobra stretches.",
     obliques: [
-      { id: "tue-halo", name: "Kneeling Dumbbell Halo", sets: 3, reps: "8 each direction", load: "Use one 4 kg dumbbell held by both ends.", focus: "Obliques, shoulders, and trunk control.", instructions: ["Kneel tall with glutes lightly squeezed and ribs stacked.", "Circle the dumbbell around your head without twisting the hips.", "Move slowly and reverse direction after each set."] },
-      { id: "tue-woodchop", name: "Kneeling Dumbbell Wood Chop", sets: 3, reps: "10 each side", load: "Use one 4 kg or 6 kg dumbbell and keep the range comfortable.", focus: "Rotational core strength and side-body definition.", instructions: ["Kneel tall and hold the dumbbell near one hip.", "Lift it diagonally across the body while rotating through the upper back and ribs.", "Return slowly without leaning or shifting the hips."] },
-      { id: "tue-rotation", name: "Kneeling Rotation Shoulder Press", sets: 3, reps: "8 each side", load: "Use one light dumbbell, starting with 4 kg.", focus: "Obliques, shoulders, and controlled rotation.", instructions: ["Kneel tall with the dumbbell at one shoulder.", "Rotate gently toward the opposite side while keeping the hips still.", "Press overhead, lower to the shoulder, and return to center."] },
-      { id: "tue-spellcaster", name: "Dumbbell Spellcaster", sets: 3, reps: "8 each side", load: "Use one 4 kg dumbbell; keep the movement slow.", focus: "Side-body strength through controlled arcs.", instructions: ["Stand or kneel tall with the dumbbell near one shoulder.", "Sweep it in a smooth diagonal arc across the body and back.", "Keep ribs down and avoid using momentum."] },
-      { id: "tue-bend", name: "Dumbbell Oblique Bend", sets: 3, reps: "12 each side", load: "Hold one 6 kg dumbbell on the working-side hand.", focus: "Oblique endurance and side-body control.", instructions: ["Stand tall with feet hip-width apart and the dumbbell at your side.", "Bend gently toward the dumbbell without rotating forward.", "Use the opposite-side oblique to return upright; do not lean past control."] },
+      { id: "tue-russian-twist", name: "Russian Twist", sets: 4, reps: "16 total", load: "Use bodyweight first, then hold one 4 kg dumbbell if your lower back stays supported.", focus: "A controlled rotational burn through the obliques.", instructions: ["Sit with knees bent, lean back slightly, and keep your chest lifted.", "Rotate your ribs side to side while keeping the hips as still as possible.", "Touch the dumbbell beside each hip without rushing or rounding hard through the spine."] },
+      { id: "tue-heel-taps", name: "Heel Taps", sets: 4, reps: "20 total", load: "Bodyweight on the mat; keep the movement smooth.", focus: "Side-body endurance and a steady abdominal burn.", instructions: ["Lie on your back with knees bent, feet planted, and shoulders slightly lifted.", "Reach your right hand toward the right heel, then your left hand toward the left heel.", "Keep your chin relaxed and exhale as you reach without pulling on your neck."] },
+      { id: "tue-side-to-side", name: "Dumbbell Side to Side", sets: 4, reps: "12 each side", load: "Use one 4 kg dumbbell and keep the range manageable.", focus: "Oblique strength with a controlled side-to-side burn.", instructions: ["Stand tall with feet hip-width apart and hold the dumbbell with both hands.", "Move the weight from one side of the body to the other while keeping ribs stacked.", "Rotate through the upper body without snapping or swinging the hips."] },
     ],
     exercises: [
       { id: "tue-squat", name: "Back Squat", sets: 4, reps: "8-10 reps", load: "Start with the empty bar or your lowest safe 15 kg setup. Add weight only when every rep is controlled.", focus: "Thigh and glute muscle with a gradual strength base.", instructions: ["Brace before descending and keep the whole foot planted.", "Sit between the hips to a depth you can control.", "Drive up smoothly without collapsing the knees."] },
@@ -476,11 +474,9 @@ const sessions: Session[] = [
     finisher: "After oblique work: 2 minutes easy walking and slow nasal breathing, then begin the stretch cooldown.",
     stretch: "After cardio: 2 rounds of 30 sec quad, hamstring, hip flexor, glute, calf, and lower-back stretches.",
     obliques: [
-      { id: "fri-halo", name: "Kneeling Dumbbell Halo", sets: 3, reps: "8 each direction", load: "Use one 4 kg dumbbell held by both ends.", focus: "Obliques, shoulders, and trunk control.", instructions: ["Kneel tall with glutes lightly squeezed and ribs stacked.", "Circle the dumbbell around your head without twisting the hips.", "Move slowly and reverse direction after each set."] },
-      { id: "fri-woodchop", name: "Kneeling Dumbbell Wood Chop", sets: 3, reps: "10 each side", load: "Use one 4 kg or 6 kg dumbbell and keep the range comfortable.", focus: "Rotational core strength and side-body definition.", instructions: ["Kneel tall and hold the dumbbell near one hip.", "Lift it diagonally across the body while rotating through the upper back and ribs.", "Return slowly without leaning or shifting the hips."] },
-      { id: "fri-rotation", name: "Kneeling Rotation Shoulder Press", sets: 3, reps: "8 each side", load: "Use one light dumbbell, starting with 4 kg.", focus: "Obliques, shoulders, and controlled rotation.", instructions: ["Kneel tall with the dumbbell at one shoulder.", "Rotate gently toward the opposite side while keeping the hips still.", "Press overhead, lower to the shoulder, and return to center."] },
-      { id: "fri-spellcaster", name: "Dumbbell Spellcaster", sets: 3, reps: "8 each side", load: "Use one 4 kg dumbbell; keep the movement slow.", focus: "Side-body strength through controlled arcs.", instructions: ["Stand or kneel tall with the dumbbell near one shoulder.", "Sweep it in a smooth diagonal arc across the body and back.", "Keep ribs down and avoid using momentum."] },
-      { id: "fri-bend", name: "Dumbbell Oblique Bend", sets: 3, reps: "12 each side", load: "Hold one 6 kg dumbbell on the working-side hand.", focus: "Oblique endurance and side-body control.", instructions: ["Stand tall with feet hip-width apart and the dumbbell at your side.", "Bend gently toward the dumbbell without rotating forward.", "Use the opposite-side oblique to return upright; do not lean past control."] },
+      { id: "fri-russian-twist", name: "Russian Twist", sets: 4, reps: "16 total", load: "Use bodyweight first, then hold one 4 kg dumbbell if your lower back stays supported.", focus: "A controlled rotational burn through the obliques.", instructions: ["Sit with knees bent, lean back slightly, and keep your chest lifted.", "Rotate your ribs side to side while keeping the hips as still as possible.", "Touch the dumbbell beside each hip without rushing or rounding hard through the spine."] },
+      { id: "fri-heel-taps", name: "Heel Taps", sets: 4, reps: "20 total", load: "Bodyweight on the mat; keep the movement smooth.", focus: "Side-body endurance and a steady abdominal burn.", instructions: ["Lie on your back with knees bent, feet planted, and shoulders slightly lifted.", "Reach your right hand toward the right heel, then your left hand toward the left heel.", "Keep your chin relaxed and exhale as you reach without pulling on your neck."] },
+      { id: "fri-side-to-side", name: "Dumbbell Side to Side", sets: 4, reps: "12 each side", load: "Use one 4 kg dumbbell and keep the range manageable.", focus: "Oblique strength with a controlled side-to-side burn.", instructions: ["Stand tall with feet hip-width apart and hold the dumbbell with both hands.", "Move the weight from one side of the body to the other while keeping ribs stacked.", "Rotate through the upper body without snapping or swinging the hips."] },
     ],
     exercises: [
       { id: "fri-squat", name: "Tempo Back Squat", sets: 4, reps: "8-10 reps", load: "Start with your lowest safe 15 kg setup and use a 3-second descent.", focus: "Thigh and glute growth with controlled progression.", instructions: ["Brace and descend for three controlled seconds.", "Pause briefly at the depth you own.", "Drive up without bouncing or losing foot pressure."] },
@@ -675,7 +671,8 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
   const completedDates = Object.keys(completedSessions).sort();
   const totalSets = Object.values(setCounts).reduce((total, count) => total + count, 0);
   const completedTasks = Object.values(taskProgress).filter(Boolean).length;
-  const cardioTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.endsWith(":obliques")).length;
+  const obliqueDates = new Set(Object.keys(setCounts).filter((key) => key.includes("-russian-twist") || key.includes("-heel-taps") || key.includes("-side-to-side")).map((key) => key.split(":")[0]));
+  const cardioTasks = [...obliqueDates].filter((date) => ["tue-russian-twist", "tue-heel-taps", "tue-side-to-side", "fri-russian-twist", "fri-heel-taps", "fri-side-to-side"].every((exerciseId) => (setCounts[`${date}:${exerciseId}`] ?? 0) >= 4)).length;
   const foodTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.includes(":food:")).length;
   const xp = 26000 + completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
   const level = Math.floor(xp / 1000) + 1;
@@ -1075,8 +1072,9 @@ function TodayView({
 
   const sessionKey = isoDate(sessionDate);
   const obliquesRequired = session.key === "tuesday" || session.key === "friday";
+  const challengeExercises = session.obliques ?? [];
   const warmupDone = Boolean(taskProgress[`${sessionKey}:warmup`]);
-  const obliquesDone = Boolean(taskProgress[`${sessionKey}:obliques`]);
+  const obliquesDone = challengeExercises.length > 0 && challengeExercises.every((exercise) => (setCounts[`${sessionKey}:${exercise.id}`] ?? 0) >= exercise.sets);
   const finisherDone = Boolean(taskProgress[`${sessionKey}:finisher`]);
   const finisherReady = allDone && (!obliquesRequired || obliquesDone);
   const stretchReady = finisherDone;
@@ -1174,19 +1172,23 @@ function TodayView({
 
       {obliquesRequired && (
         <section className="cardioCard obliqueCard">
-          <div className="cardioCardHeader"><div><p>Oblique training card</p><h3>Do this after all six exercises</h3></div><strong>+50 XP</strong></div>
-          <p>Complete these manageable dumbbell movements after your strength sets. Use slow control and stop if your back or hips rotate out of position.</p>
+          <div className="cardioCardHeader"><div><p>Challenges</p><h3>Oblique burn after all six exercises</h3></div><strong>+25 XP / set</strong></div>
+          <p>Complete all three challenges after your strength sets. Rest 30-45 seconds between sets and keep the burn controlled—quality reps matter more than speed.</p>
           <div className="obliqueExerciseList">
-            {(session.obliques ?? []).map((exercise) => (
-              <article className="obliqueExercise" key={exercise.id}>
+            {challengeExercises.map((exercise) => {
+              const key = `${sessionKey}:${exercise.id}`;
+              const count = setCounts[key] ?? 0;
+              const closed = count >= exercise.sets;
+              return <article className={`obliqueExercise ${closed ? "closed" : ""}`} key={exercise.id}>
                 <div><strong>{exercise.name}</strong><span>{exercise.sets} sets · {exercise.reps}</span></div>
                 <p>{exercise.focus}</p>
                 <div className="loadLine">{exercise.load}</div>
                 <ol>{exercise.instructions.map((instruction) => <li key={instruction}>{instruction}</li>)}</ol>
-              </article>
-            ))}
+                {!closed && <button className="primaryButton" onClick={() => onIncrement(exercise)}><Check size={18} />Log set {Math.min(count + 1, exercise.sets)} <span className="buttonXp">+25 XP</span></button>}
+                {closed && <button className="ghostButton" onClick={() => onReset(exercise)}><RotateCcw size={16} />Reopen</button>}
+              </article>;
+            })}
           </div>
-          <TaskRow taskKey={`${sessionKey}:obliques`} label="Complete oblique training" detail="Check this only after all six strength exercises and all oblique movements are finished." done={obliquesDone} disabled={!allDone} onToggle={onTaskToggle} />
         </section>
       )}
 

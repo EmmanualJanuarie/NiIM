@@ -814,3 +814,5 @@ button { cursor: pointer; }
 .obliqueExercise > p { margin: 6px 0 0; color: var(--muted); font-size: .75rem; line-height: 1.35; }
 .obliqueExercise .loadLine { margin-top: 9px; color: var(--ink); font-size: .75rem; }
 .obliqueExercise ol { margin: 10px 0 0; color: var(--muted); font-size: .76rem; }
+.obliqueExercise .primaryButton, .obliqueExercise .ghostButton { margin-top: 12px; }
+.obliqueExercise.closed { border-color: #536b32; opacity: .8; }
