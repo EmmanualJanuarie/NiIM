@@ -828,6 +828,7 @@ button { cursor: pointer; }
 }
 .beastBattleCompact { margin: 0 16px 14px; }
 .beastBattleTop { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.beastName { display: flex; align-items: center; gap: 12px; }
 .beastBattleTop p { margin: 0 0 4px; color: #ffb38a; font-size: .66rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .beastBattleTop h3 { margin: 0; color: var(--ink); font-size: 1.25rem; }
 .beastBattleTop span, .beastBattle small { color: var(--muted); font-size: .72rem; font-weight: 800; }
@@ -840,8 +841,18 @@ button { cursor: pointer; }
 .beastCard { display: flex; align-items: center; gap: 9px; min-height: 64px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-strong); }
 .beastCard.active { border-color: #ff9c4a; box-shadow: inset 0 0 0 1px rgba(255,156,74,.2); }
 .beastCard.killed { border-color: #536b32; background: #263620; }
-.beastCard > span { display: grid; place-items: center; width: 33px; height: 33px; flex: 0 0 auto; border-radius: 9px; background: #101512; font-size: 1.2rem; }
-.beastCard.killed > span { background: var(--acid); }
+.pixelBeast { display: grid; grid-template-columns: repeat(8, 4px); grid-template-rows: repeat(8, 4px); width: 32px; height: 32px; flex: 0 0 auto; image-rendering: pixelated; filter: drop-shadow(2px 2px 0 #0c100d); }
+.pixelBeast i { width: 4px; height: 4px; }
+.pixelBeast i.filled { background: currentColor; box-shadow: inset -1px -1px 0 rgba(0,0,0,.35); }
+.pixelBeastLarge { grid-template-columns: repeat(8, 7px); grid-template-rows: repeat(8, 7px); width: 56px; height: 56px; }
+.pixelBeastLarge i { width: 7px; height: 7px; }
+.tier-rookie { color: #a8d840; }
+.tier-hunter { color: #5ed3d0; }
+.tier-warlord { color: #d695ff; }
+.tier-titan { color: #ff9c4a; }
+.tier-apex { color: #ff5f65; }
+.pixelBeastDefeated { color: var(--acid); opacity: .92; }
+.beastLock { display: grid; place-items: center; width: 33px; height: 33px; flex: 0 0 auto; border-radius: 0; background: #101512; font-size: 1.05rem; }
 .beastCard div { display: grid; min-width: 0; gap: 3px; }
 .beastCard strong { overflow: hidden; color: var(--ink); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
 .beastCard small { color: var(--muted); font-size: .62rem; }

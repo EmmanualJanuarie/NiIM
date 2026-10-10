@@ -562,6 +562,14 @@ const beasts: Beast[] = beastNames.map((name, index) => ({
   emoji: ["🐗", "🐺", "🦍", "🐊", "🐲"][Math.min(4, Math.floor(index / 14))],
 }));
 
+const pixelSprites = [
+  ["00011000", "00111100", "01111110", "11111111", "11011011", "11111111", "01100110", "00100100"].join(""),
+  ["00100100", "01111110", "11011011", "11111111", "01111110", "00111100", "01100110", "11000011"].join(""),
+  ["00111100", "01111110", "11111111", "11011011", "11111111", "01100110", "11011011", "10000001"].join(""),
+  ["01000010", "11100111", "11111111", "01111110", "11111111", "01100110", "11011011", "10000001"].join(""),
+  ["00100100", "01111110", "11111111", "11111111", "11011011", "11111111", "01111110", "11000011"].join(""),
+];
+
 const dailyFoodNotes = [
   "Body-recomposition target: use consistent portions and adjust based on energy, recovery, and weekly progress rather than crash dieting.",
   "Protein target: aim for 190-220 g per day. If these meals leave you short, add 2 boiled eggs or another chicken breast.",
@@ -1278,12 +1286,20 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
   );
 }
 
+function PixelBeast({ beast, defeated = false, large = false }: { beast: Beast; defeated?: boolean; large?: boolean }) {
+  const beastIndex = Number(beast.id.replace("beast-", "")) - 1;
+  const sprite = pixelSprites[beastIndex % pixelSprites.length];
+  return <span className={`pixelBeast tier-${beast.difficulty.toLowerCase()} ${defeated ? "pixelBeastDefeated" : ""} ${large ? "pixelBeastLarge" : ""}`} aria-label={`${beast.name} pixel beast`}>
+    {sprite.split("").map((pixel, index) => <i className={pixel === "1" ? "filled" : ""} key={index} />)}
+  </span>;
+}
+
 function BeastBattle({ beast, hp, defeated, compact = false }: { beast: Beast; hp: number; defeated: number; compact?: boolean }) {
   const hpPercent = Math.max(0, Math.min(100, (hp / beast.hp) * 100));
   return (
     <section className={`beastBattle ${compact ? "beastBattleCompact" : ""}`}>
       <div className="beastBattleTop">
-        <div><p>Current beast · #{Number(beast.id.replace("beast-", ""))}</p><h3>{beast.emoji} {beast.name}</h3><span>{beast.difficulty} difficulty</span></div>
+        <div className="beastName"><PixelBeast beast={beast} large /><div><p>Current beast · #{Number(beast.id.replace("beast-", ""))}</p><h3>{beast.name}</h3><span>{beast.difficulty} difficulty</span></div></div>
         <strong>{hp.toLocaleString()} / {beast.hp.toLocaleString()} HP</strong>
       </div>
       <div className="beastHp"><span style={{ width: `${hpPercent}%` }} /></div>
@@ -1305,7 +1321,7 @@ function BeastLocker({ progress }: { progress: BeastProgress }) {
           {beasts.map((beast, index) => {
             const killed = progress.defeated.includes(index);
             const active = index === progress.current;
-            return <article className={`beastCard ${killed ? "killed" : ""} ${active ? "active" : ""}`} key={beast.id}><span>{killed ? beast.emoji : "🔒"}</span><div><strong>{killed ? beast.name : `Beast #${index + 1}`}</strong><small>{killed ? `${beast.difficulty} defeated` : `${beast.hp.toLocaleString()} HP`}</small></div></article>;
+            return <article className={`beastCard ${killed ? "killed" : ""} ${active ? "active" : ""}`} key={beast.id}>{killed ? <PixelBeast beast={beast} defeated /> : <span className="beastLock">🔒</span>}<div><strong>{killed ? beast.name : `Beast #${index + 1}`}</strong><small>{killed ? `${beast.difficulty} defeated` : `${beast.hp.toLocaleString()} HP`}</small></div></article>;
           })}
         </div>
       </section>
