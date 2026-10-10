@@ -854,8 +854,6 @@ export default function App() {
 
         {lastReward > 0 && <div className="rewardToast" onAnimationEnd={() => setLastReward(0)}>+{lastReward} XP earned</div>}
 
-        {activeBeast && <BeastBattle beast={activeBeast} hp={beastProgress.hp} defeated={beastProgress.defeated.length} compact />}
-
         {motivationMode && (
           <section className="quotePanel">
             <Flame size={18} />
