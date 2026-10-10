@@ -391,7 +391,7 @@ const sessions: Session[] = [
     morningJog: "10 minutes easy outside before breakfast or before the gym session.",
     warmup: ["Arm circles x 20 each way", "Scapular push-ups x 12", "Cat-cow x 8", "Child's pose to cobra x 6", "Empty-bar bench press x 15"],
     cardio: "No separate cardio block today. Keep the focus on quality upper-body muscle work.",
-    finisher: "After all eight exercises: plate pinch hold 3 x 20 seconds, then complete the stretch cooldown.",
+    finisher: "After all strength exercises: plate pinch hold 3 x 20 seconds, then complete the stretch cooldown.",
     stretch: "After cardio: 2 rounds of 30 sec chest doorway stretch, child\'s pose, cobra, lat stretch, and triceps stretch.",
     exercises: [
       { id: "mon-pullup", name: "Shoulder-Width Pull-Up", sets: 5, reps: "1 strict rep", load: "Do one clean rep if available. If you cannot complete a rep, use a chair-assisted pull-up or 3-5 second negative.", focus: "Back width and gradual pull-up strength.", instructions: ["Use a shoulder-width overhand grip and start from a controlled hang.", "Pull your chest toward the bar without kicking or swinging.", "Lower with control; one clean rep is enough before using assistance."] },
@@ -403,6 +403,10 @@ const sessions: Session[] = [
       { id: "mon-lateral", name: "Dumbbell Lateral Raise", sets: 3, reps: "12-15 reps", load: "Use the 4 kg or 6 kg dumbbells with strict control.", focus: "Shoulder width and capped delts.", instructions: ["Keep a soft bend in the elbows and ribs stacked.", "Raise to shoulder height without shrugging.", "Lower for 2-3 seconds."] },
       { id: "mon-hammer", name: "Dumbbell Hammer Curl", sets: 3, reps: "10-12 reps", load: "Use 4 kg or 6 kg dumbbells and control the lowering phase.", focus: "Biceps and brachialis thickness.", instructions: ["Keep palms facing each other and elbows close to the ribs.", "Curl without swinging the shoulders.", "Lower slowly until the arms are straight."] },
       { id: "mon-extension", name: "Dumbbell Overhead Triceps Extension", sets: 3, reps: "10-15 reps", load: "Use one 4 kg or 6 kg dumbbell held with both hands.", focus: "Direct triceps size and definition.", instructions: ["Brace your ribs down and keep elbows pointing forward.", "Lower the dumbbell behind the head under control.", "Extend the elbows without flaring them wide."] },
+      { id: "mon-lying-extension", name: "Lying Dumbbell Triceps Extension", sets: 3, reps: "10-12 reps", load: "Use two 4 kg dumbbells; start lighter if your elbows feel tender.", focus: "Long-head triceps size for thicker upper arms.", instructions: ["Lie flat with dumbbells over the shoulders and elbows pointing upward.", "Bend only the elbows to lower the dumbbells beside the head.", "Extend smoothly without letting elbows flare wide."] },
+      { id: "mon-wrist-curl", name: "Dumbbell Wrist Curl", sets: 3, reps: "15-20 reps", load: "Use 4 kg dumbbells, or less if the wrists cannot stay controlled.", focus: "Forearm flexor size and grip endurance.", instructions: ["Rest forearms on thighs with palms facing up.", "Lower the dumbbells slowly into the fingers, then curl the wrists high.", "Keep the forearms still and use a full controlled range."] },
+      { id: "mon-neck-flexion", name: "Neck Flexion", sets: 2, reps: "12-15 reps", load: "Bodyweight only or very light hand resistance; never use a plate on the head.", focus: "Gradual front-neck strength and posture.", instructions: ["Lie on your back with the head just off the edge of a stable bench or mat support.", "Tuck the chin and lift the head only through a pain-free small range.", "Move slowly; stop immediately for pain, tingling, dizziness, or headache."] },
+      { id: "mon-neck-isometric", name: "Isometric Neck Curl", sets: 2, reps: "15 sec hold", load: "Use gentle hand or towel resistance only.", focus: "Safe neck bracing strength.", instructions: ["Place a hand or folded towel against the forehead.", "Press gently into it while keeping the neck neutral for 15 seconds.", "Use only 3-4 out of 10 effort; there should be no pain or shaking."] },
     ],
   },
   {
@@ -437,7 +441,7 @@ const sessions: Session[] = [
     morningJog: "10 minutes easy outside before the upper-body session.",
     warmup: ["Arm circles x 20 each way", "Scapular push-ups x 12", "Dead hang practice x 15 sec", "Child's pose to cobra x 6", "Empty-bar rows x 15"],
     cardio: "",
-    finisher: "After all eight exercises: plate pinch hold 3 x 20 seconds, then complete the stretch cooldown.",
+    finisher: "After all strength exercises: plate pinch hold 3 x 20 seconds, then complete the stretch cooldown.",
     stretch: "After the finisher: 2 rounds of 30 sec lat, chest, biceps, triceps, forearm, and upper-back stretches.",
     exercises: [
       { id: "thu-pullup", name: "Shoulder-Width Pull-Up", sets: 5, reps: "1 strict rep", load: "Do one clean rep if available. If you cannot complete a rep, use a chair-assisted pull-up or 3-5 second negative.", focus: "Back width and gradual pull-up strength.", instructions: ["Use a shoulder-width overhand grip and start from a controlled hang.", "Pull your chest toward the bar without kicking or swinging.", "Lower with control; one clean rep is enough before using assistance."] },
@@ -449,6 +453,10 @@ const sessions: Session[] = [
       { id: "thu-triceps", name: "Close-Grip Push-Up", sets: 4, reps: "8-15 reps", load: "Use a bench incline if full floor reps break down.", focus: "Triceps size and pressing endurance.", instructions: ["Place hands just inside shoulder width.", "Keep ribs down and elbows close.", "Press the floor away while keeping the body in one line."] },
       { id: "thu-curl2", name: "Dumbbell Concentration Curl", sets: 3, reps: "10-12 each arm", load: "Use the 4 kg or 6 kg dumbbell with a strict range.", focus: "Direct biceps work and a stronger squeeze.", instructions: ["Sit and brace the upper arm against the inside of the thigh.", "Curl without moving the shoulder.", "Lower for 3 seconds and fully straighten the arm."] },
       { id: "thu-kickback", name: "Dumbbell Triceps Kickback", sets: 3, reps: "12-15 reps", load: "Use 4 kg dumbbells and keep the torso stable.", focus: "Direct triceps lockout and definition.", instructions: ["Hinge forward with a flat back and elbows tucked high.", "Extend the forearms until the arms are straight.", "Pause, squeeze the triceps, and return slowly."] },
+      { id: "thu-lying-extension", name: "Lying Dumbbell Triceps Extension", sets: 3, reps: "10-12 reps", load: "Use two 4 kg dumbbells and keep the elbows controlled.", focus: "Triceps thickness without needing more barbell load.", instructions: ["Keep shoulders set against the bench or mat.", "Lower the dumbbells beside the temples by bending the elbows only.", "Press back to straight arms without snapping the elbows."] },
+      { id: "thu-reverse-wrist", name: "Reverse Wrist Curl", sets: 3, reps: "15-20 reps", load: "Use the small barbell or 4 kg dumbbells with a light load.", focus: "Forearm extensor size and elbow balance.", instructions: ["Rest forearms on thighs with palms facing down.", "Lift the knuckles toward the ceiling, then lower slowly.", "Keep the forearms pinned and avoid swinging."] },
+      { id: "thu-neck-extension", name: "Prone Neck Extension", sets: 2, reps: "12-15 reps", load: "Bodyweight only or very light hand resistance; never load the head with plates.", focus: "Gradual back-neck strength for a thicker neck.", instructions: ["Lie face down with forehead supported near the edge of a stable bench or mat.", "Lift the head through a very small pain-free range while keeping the chin tucked slightly.", "Stop immediately for pain, tingling, dizziness, or headache."] },
+      { id: "thu-side-neck", name: "Side-Lying Neck Raise", sets: 2, reps: "10-12 each side", load: "Bodyweight only or gentle hand resistance.", focus: "Side-neck strength and balanced neck development.", instructions: ["Lie on your side with the head supported just beyond a stable surface.", "Lift the ear toward the shoulder through a small controlled range.", "Keep it light and stop immediately if symptoms appear."] },
     ],
   },
   {
@@ -473,6 +481,25 @@ const sessions: Session[] = [
       { id: "fri-glute", name: "Single-Leg Glute Bridge", sets: 4, reps: "12 each leg", load: "Bodyweight; add a light plate only when stable.", focus: "Glute shape and hip stability.", instructions: ["Keep ribs down and one heel planted.", "Lift the hips without twisting.", "Pause at the top and lower slowly."] },
       { id: "fri-calf", name: "Seated Calf Raise", sets: 5, reps: "15-20 reps", load: "Place a light plate or dumbbell on the knees.", focus: "Calf size through a full range.", instructions: ["Lower the heels slowly into the stretch.", "Rise high and pause at the top.", "Keep the movement controlled rather than bouncing."] },
       { id: "fri-core", name: "Dead Bug or Ab Roller", sets: 4, reps: "8-12 each side or 5-10 rolls", load: "Choose the version that keeps the lower back controlled.", focus: "Core strength for a tighter midsection.", instructions: ["Press the lower back gently toward the mat.", "Move slowly and exhale as the limbs extend.", "Stop before the ribs flare or the back arches."] },
+    ],
+  },
+  {
+    key: "sunday",
+    day: "Sunday",
+    title: "Optional Core Shred Burner",
+    intent: "A hard but controlled abdominal and oblique session for trunk strength and extra calorie burn. Skip it if recovery is poor.",
+    morningJog: "10 minutes easy outside only if your legs feel recovered.",
+    warmup: ["March or jog in place x 60 sec", "Cat-cow x 8", "Child's pose to cobra x 6", "Bodyweight squats x 10", "Standing trunk rotations x 10 each side"],
+    cardio: "No extra cardio today. Keep this optional core day controlled so Monday strength stays high quality.",
+    finisher: "Finish with 2 minutes easy walking, then slow nasal breathing before your stretch cooldown.",
+    stretch: "2 rounds of 30 sec cobra, child's pose, hip flexor stretch, gentle side bend, and lower-back rotation each side.",
+    exercises: [
+      { id: "sun-roller", name: "Ab Roller", sets: 3, reps: "6-10 reps", load: "From knees; shorten the range before your lower back arches.", focus: "Hard anti-extension work for a stronger abdominal wall.", instructions: ["Tuck the ribs and squeeze glutes before every roll.", "Roll out slowly, pausing before the lower back takes over.", "Pull back with abs and lats, not momentum."] },
+      { id: "sun-russian-twist", name: "Russian Twist", sets: 3, reps: "20 total", load: "Use bodyweight or one 4 kg dumbbell only with a tall chest.", focus: "Oblique endurance and controlled trunk rotation.", instructions: ["Keep the chest lifted and feet grounded if needed.", "Rotate the ribs, not just the hands.", "Move smoothly instead of chasing speed."] },
+      { id: "sun-heel-touches", name: "Heel Touches", sets: 3, reps: "30 total", load: "Bodyweight on the mat.", focus: "A deep side-body burn through the obliques.", instructions: ["Lift shoulders slightly while keeping the neck relaxed.", "Reach side to side toward each heel.", "Exhale on every reach and keep the low back comfortable."] },
+      { id: "sun-db-side", name: "Dumbbell Side to Side", sets: 3, reps: "12 each side", load: "Use one 4 kg dumbbell; reduce range if the lower back feels strained.", focus: "Controlled oblique strength, not heavy side bending.", instructions: ["Keep ribs stacked over hips and knees softly bent.", "Move slowly side to side without jerking.", "Brace before each direction change."] },
+      { id: "sun-reverse-crunch", name: "Reverse Crunch", sets: 3, reps: "12-15 reps", load: "Bodyweight; use the mat and keep the range small.", focus: "Lower-abdominal control and pelvic stability.", instructions: ["Start with knees bent above hips.", "Curl the tailbone gently up without swinging the legs.", "Lower for three seconds and keep ribs down."] },
+      { id: "sun-plank-drive", name: "Plank Knee Drive", sets: 3, reps: "30 sec", load: "Bodyweight from hands or forearms.", focus: "Core endurance with a fat-burning full-body demand.", instructions: ["Brace like a plank before bringing a knee forward.", "Alternate legs without letting hips sag or twist.", "Slow down before form breaks; quality creates the burn."] },
     ],
   },
 ];
@@ -1228,7 +1255,7 @@ function ProgramView() {
     <div className="contentStack">
       <section className="sectionTitle">
         <p>Weekly split</p>
-        <h2>Four training days. Three real rest days.</h2>
+        <h2>Four primary days, plus an optional Sunday core burner.</h2>
       </section>
       {sessions.map((session) => (
         <article className="programCard" key={session.key}>
@@ -1242,7 +1269,7 @@ function ProgramView() {
       ))}
       <section className="detailsBand">
         <h3>Progression</h3>
-        <p>Run this base split for 4 weeks, but let the trainer calls change the feel each day. If all reps are clean, add 2.5 kg to barbell lifts, add one cardio round, or make the last set AMRAP with safe form. Every fourth week, keep the weights lighter and move perfectly.</p>
+        <p>Run the four primary days for 4 weeks. Sunday is optional: skip it whenever sleep, joints, or performance say you need recovery. If all reps are clean, add 2.5 kg to barbell lifts, add one cardio round, or make the last set AMRAP with safe form. Every fourth week, keep the weights lighter and move perfectly.</p>
       </section>
     </div>
   );
