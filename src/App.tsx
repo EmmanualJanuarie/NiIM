@@ -1,7 +1,6 @@
 import {
   Activity,
   Award,
-  CalendarDays,
   Check,
   ChevronRight,
   Database,
@@ -13,7 +12,7 @@ import {
   RotateCcw,
   ShieldCheck,
   Sparkles,
-  Timer,
+  Skull,
   Utensils,
   Zap,
 } from "lucide-react";
@@ -21,7 +20,7 @@ import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-type Tab = "today" | "program" | "food" | "calendar";
+type Tab = "today" | "program" | "food" | "beasts";
 type Exercise = {
   id: string;
   name: string;
@@ -44,19 +43,8 @@ type Session = {
   morningJog?: string;
   obliques?: Exercise[];
 };
-type CalendarCell =
-  | { blank: true; key: string }
-  | { blank: false; key: string; day: number; training: boolean; done: boolean; today: boolean };
-type Meal = {
-  name: string;
-  goal: string;
-  items: string[];
-  prep: string;
-  macros: string;
-};
-
-const startDate = new Date("2026-08-03T00:00:00");
-const targetDate = new Date("2028-10-31T00:00:00");
+type Beast = { id: string; name: string; difficulty: string; hp: number; emoji: string };
+type BeastProgress = { current: number; hp: number; defeated: number[] };
 
 const legacySessions: Session[] = [
   {
@@ -550,45 +538,29 @@ function getAchievements(stats: { sessions: number; totalSets: number; completed
   ];
 }
 
-const meals: Meal[] = [
-  {
-    name: "Breakfast",
-    goal: "Strong start: protein, carbs, and healthy fat without feeling heavy.",
-    items: [
-      "3 whole eggs",
-      "1 tsp olive oil, about 5 ml",
-      "1 medium tomato, about 120 g, chopped",
-      "1/2 green pepper, about 75 g, chopped",
-      "80 g dry oats cooked with 300 ml water",
-    ],
-    prep: "Cook the tomato and green pepper in olive oil for 2 minutes, add beaten eggs, then serve with oats. Add cinnamon to oats if you want it easier to eat.",
-    macros: "About 610 kcal, 34 g protein, 62 g carbs, 25 g fat.",
-  },
-  {
-    name: "Lunch",
-    goal: "Midday tea reset: keep it simple, unsweetened, and hydrating.",
-    items: [
-      "1-2 cups rooibos tea",
-      "No sugar",
-      "No milk",
-      "Drink water alongside it",
-    ],
-    prep: "Steep rooibos for 5-7 minutes. This is a light tea break, not a performance meal; add a simple protein snack if training, hunger, or energy levels call for it.",
-    macros: "Unsweetened rooibos is about 0-5 kcal and caffeine-free.",
-  },
-  {
-    name: "Dinner",
-    goal: "Main recovery plate: two pieces of meat, vegetables, and measured rice.",
-    items: [
-      "2 pieces of lean meat, such as chicken, fish, lean beef, or pork",
-      "80-100 g dry rice, cooked into a measured portion",
-      "2 cups vegetables, about 160-200 g",
-      "1 tsp olive oil, about 5 ml, if needed",
-    ],
-    prep: "Grill, bake, or pan-cook the meat. Fill half the plate with vegetables, then use rice to fuel recovery. Keep the portions consistent while your body composition changes.",
-    macros: "Roughly 650-850 kcal depending on the meat and rice portion; prioritize protein and vegetables.",
-  },
+const mealTasks = [
+  { name: "Breakfast", detail: "Did you eat your omelette and oats?", damage: 60 },
+  { name: "Lunch", detail: "Did you have your rooibos tea with no sugar or milk?", damage: 45 },
+  { name: "Dinner", detail: "Did you eat vegetables, rice, and two pieces of meat?", damage: 75 },
 ];
+
+const beastNames = [
+  "Mossjaw", "Gravelhide", "Ashclaw", "Iron Snout", "Ridge Stalker", "Mudfang", "Brambleback", "Stonehorn", "Frostbite", "Night Prowler",
+  "Razorhide", "Dreadhoof", "Gloomfang", "Thunder Maw", "Bonebreaker", "Black Tusk", "Cinderclaw", "Ironmane", "Ruin Howler", "Gravespine",
+  "Stormhide", "Cragjaw", "Blightfang", "Wolfsbane", "Skullcrusher", "Voidclaw", "Ragehorn", "Ashen King", "Riftwalker", "Doomhide",
+  "Bloodmoon", "Iron Warden", "Grim Titan", "Feral Crown", "Warlord Maw", "Obsidian Fang", "Dread Colossus", "Tempest King", "Bone Tyrant", "Abyss Walker",
+  "Nightmare Horn", "Inferno Maw", "Ruin Emperor", "Thunder Tyrant", "Blackout Beast", "Titanbreaker", "The Hollow King", "Warpath", "Deathridge", "The Ravager",
+  "Iron Leviathan", "Crown Eater", "Storm Reaper", "The Hunger", "Dread Sovereign", "Worldsplitter", "The Unbroken", "Ashen Warlord", "The Crusher", "Frost Tyrant",
+  "The Devourer", "Shadow Colossus", "Iron Apocalypse", "The Last Fang", "Grave Titan", "Rage Incarnate", "The Mountain", "Oblivion", "The Final Beast", "Apex Prime",
+];
+
+const beasts: Beast[] = beastNames.map((name, index) => ({
+  id: `beast-${index + 1}`,
+  name,
+  difficulty: index < 10 ? "Rookie" : index < 25 ? "Hunter" : index < 45 ? "Warlord" : index < 60 ? "Titan" : "Apex",
+  hp: 250 + index * 75,
+  emoji: ["🐗", "🐺", "🦍", "🐊", "🐲"][Math.min(4, Math.floor(index / 14))],
+}));
 
 const dailyFoodNotes = [
   "Body-recomposition target: use consistent portions and adjust based on energy, recovery, and weekly progress rather than crash dieting.",
@@ -674,7 +646,7 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
   const obliqueDates = new Set(Object.keys(setCounts).filter((key) => key.includes("-russian-twist") || key.includes("-heel-taps") || key.includes("-side-to-side")).map((key) => key.split(":")[0]));
   const cardioTasks = [...obliqueDates].filter((date) => ["tue-russian-twist", "tue-heel-taps", "tue-side-to-side", "fri-russian-twist", "fri-heel-taps", "fri-side-to-side"].every((exerciseId) => (setCounts[`${date}:${exerciseId}`] ?? 0) >= 4)).length;
   const foodTasks = Object.entries(taskProgress).filter(([key, done]) => done && key.includes(":food:")).length;
-  const xp = 26000 + completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
+  const xp = 36000 + completedDates.length * 500 + totalSets * 25 + completedTasks * 50;
   const level = Math.floor(xp / 1000) + 1;
   const levelProgress = xp % 1000;
   let streak = 0;
@@ -686,6 +658,15 @@ function getTrainingStats(completedSessions: Record<string, string>, setCounts: 
     cursor.setDate(cursor.getDate() - 1);
   }
   return { xp, level, levelProgress, streak, totalSets, sessions: completedDates.length, completedTasks, cardioTasks, foodTasks };
+}
+
+function getRank(level: number) {
+  if (level >= 70) return "Apex";
+  if (level >= 55) return "Titan";
+  if (level >= 40) return "Warlord";
+  if (level >= 30) return "Hunter";
+  if (level >= 15) return "Striker";
+  return "Rookie";
 }
 
 function getSessionForDate(date: Date) {
@@ -738,35 +719,43 @@ export default function App() {
   const today = useMemo(() => new Date(), []);
   const todayKey = isoDate(today);
   const todaySession = getSessionForDate(today);
-  const nextTraining = getNextTrainingDay(today);
   const [activeTab, setActiveTab] = useState<Tab>("today");
   const [authenticated, setAuthenticated] = useState(false);
   const [setCounts, setSetCounts, setsReady] = useDatabaseState<Record<string, number>>("set-counts", {});
   const [completedSessions, setCompletedSessions, sessionsReady] = useDatabaseState<Record<string, string>>("completed-sessions", {});
   const [taskProgress, setTaskProgress, tasksReady] = useDatabaseState<Record<string, boolean>>("task-progress", {});
+  const [beastProgress, setBeastProgress, beastsReady] = useDatabaseState<BeastProgress>("beast-progress", { current: 0, hp: beasts[0].hp, defeated: [] });
   const [motivationMode, setMotivationMode] = useState(false);
   const [lastReward, setLastReward] = useState(0);
-  const journeyOffset = daysBetween(startDate, today);
-  const activeJourneyOffset = Math.max(0, journeyOffset);
-  const quote = quotes[positiveModulo(activeJourneyOffset, quotes.length)];
-  const challenge = challenges[positiveModulo(Math.floor(activeJourneyOffset / 3), challenges.length)];
-  const trainerCall = trainerCalls[positiveModulo(activeJourneyOffset + today.getDay(), trainerCalls.length)];
-  const sessionTwist = sessionTwists[positiveModulo(activeJourneyOffset + 2, sessionTwists.length)];
+  const dayIndex = Math.floor(today.getTime() / 86400000);
+  const quote = quotes[positiveModulo(dayIndex, quotes.length)];
+  const challenge = challenges[positiveModulo(Math.floor(dayIndex / 3), challenges.length)];
+  const trainerCall = trainerCalls[positiveModulo(dayIndex + today.getDay(), trainerCalls.length)];
+  const sessionTwist = sessionTwists[positiveModulo(dayIndex + 2, sessionTwists.length)];
   const completeToday = Boolean(completedSessions[todayKey]);
-  const journeyLabel = journeyOffset < 0 ? `Starts in ${Math.abs(journeyOffset)}d` : `Day ${journeyOffset + 1}`;
-  const daysLeft = Math.max(0, daysBetween(today, targetDate));
   const stats = getTrainingStats(completedSessions, setCounts, taskProgress, today);
   const achievements = getAchievements(stats);
 
-  const sessionForCard = todaySession ?? nextTraining?.session;
-  const sessionDate = todaySession ? today : nextTraining?.date ?? today;
+  const sessionForCard = todaySession;
+  const sessionDate = today;
+  const activeBeast = beasts[Math.min(beastProgress.current, beasts.length - 1)];
+
+  const damageBeast = (damage: number) => {
+    setBeastProgress((current) => {
+      const currentIndex = Math.min(current.current, beasts.length - 1);
+      const currentBeast = beasts[currentIndex];
+      if (current.hp > damage) return { ...current, hp: current.hp - damage };
+      const defeated = current.defeated.includes(currentIndex) ? current.defeated : [...current.defeated, currentIndex];
+      const nextIndex = Math.min(currentIndex + 1, beasts.length - 1);
+      return { current: nextIndex, hp: beasts[nextIndex].hp, defeated };
+    });
+  };
 
   const incrementSet = (exercise: Exercise) => {
     const storageKey = `${isoDate(sessionDate)}:${exercise.id}`;
-    setSetCounts((current) => ({
-      ...current,
-      [storageKey]: Math.min((current[storageKey] ?? 0) + 1, exercise.sets),
-    }));
+    if ((setCounts[storageKey] ?? 0) >= exercise.sets) return;
+    setSetCounts((current) => ({ ...current, [storageKey]: Math.min((current[storageKey] ?? 0) + 1, exercise.sets) }));
+    damageBeast(25);
     setLastReward(25);
   };
 
@@ -776,16 +765,22 @@ export default function App() {
   };
 
   const markSessionDone = () => {
+    if (completeToday) return;
     setCompletedSessions((current) => ({
       ...current,
       [isoDate(sessionDate)]: sessionForCard?.title ?? "Training",
     }));
+    damageBeast(150);
     setLastReward(500);
   };
 
   const toggleTask = (taskKey: string) => {
     setTaskProgress((current) => ({ ...current, [taskKey]: !current[taskKey] }));
-    if (!taskProgress[taskKey]) setLastReward(50);
+    if (!taskProgress[taskKey]) {
+      const meal = mealTasks.find((entry) => taskKey.endsWith(`:food:${entry.name.toLowerCase()}`));
+      damageBeast(meal?.damage ?? 50);
+      setLastReward(50);
+    }
   };
 
   const allDone =
@@ -803,7 +798,7 @@ export default function App() {
     return <AuthGate onAuthenticated={() => setAuthenticated(true)} />;
   }
 
-  if (!setsReady || !sessionsReady || !tasksReady) {
+  if (!setsReady || !sessionsReady || !tasksReady || !beastsReady) {
     return (
       <main className="phone authScreen">
         <div className="authCard">
@@ -844,9 +839,9 @@ export default function App() {
           </div>
           <div className="statsGrid">
             <Metric label="Current streak" value={`${stats.streak} days`} />
-            <Metric label="Rank" value={stats.level >= 5 ? "Starter" : "Rookie"} />
-            <Metric label="Journey" value={journeyLabel} />
-            <Metric label="Days to goal" value={String(daysLeft)} />
+            <Metric label="Rank" value={getRank(stats.level)} />
+            <Metric label="Beasts defeated" value={`${beastProgress.defeated.length}/70`} />
+            <Metric label="Current target" value={`#${activeBeast ? beastProgress.current + 1 : 70}`} />
           </div>
           <p className="goalNote">Body-recomposition target · 178-180 cm · 110 kg starting point</p>
         </section>
@@ -858,6 +853,8 @@ export default function App() {
         </section>
 
         {lastReward > 0 && <div className="rewardToast" onAnimationEnd={() => setLastReward(0)}>+{lastReward} XP earned</div>}
+
+        {activeBeast && <BeastBattle beast={activeBeast} hp={beastProgress.hp} defeated={beastProgress.defeated.length} compact />}
 
         {motivationMode && (
           <section className="quotePanel">
@@ -875,7 +872,6 @@ export default function App() {
             session={sessionForCard}
             sessionDate={sessionDate}
             isTodayTraining={Boolean(todaySession)}
-            nextTraining={nextTraining}
             setCounts={setCounts}
             allDone={allDone}
             onIncrement={incrementSet}
@@ -893,14 +889,14 @@ export default function App() {
 
         {activeTab === "program" && <ProgramView />}
         {activeTab === "food" && <FoodView todayKey={todayKey} taskProgress={taskProgress} onTaskToggle={toggleTask} />}
-        {activeTab === "calendar" && <CalendarView completedSessions={completedSessions} today={today} />}
+        {activeTab === "beasts" && <BeastLocker progress={beastProgress} />}
       </main>
 
       <nav className="bottomNav" aria-label="Primary">
         <NavButton icon={<Home size={20} />} label="Today" active={activeTab === "today"} onClick={() => setActiveTab("today")} />
         <NavButton icon={<Dumbbell size={20} />} label="Split" active={activeTab === "program"} onClick={() => setActiveTab("program")} />
         <NavButton icon={<Utensils size={20} />} label="Food" active={activeTab === "food"} onClick={() => setActiveTab("food")} />
-        <NavButton icon={<CalendarDays size={20} />} label="Calendar" active={activeTab === "calendar"} onClick={() => setActiveTab("calendar")} />
+        <NavButton icon={<Skull size={20} />} label="Beasts" active={activeTab === "beasts"} onClick={() => setActiveTab("beasts")} />
       </nav>
 
       <aside className="desktopBlock">
@@ -1036,7 +1032,6 @@ function TodayView({
   session,
   sessionDate,
   isTodayTraining,
-  nextTraining,
   setCounts,
   allDone,
   onIncrement,
@@ -1054,7 +1049,6 @@ function TodayView({
   session?: Session;
   sessionDate: Date;
   isTodayTraining: boolean;
-  nextTraining: { date: Date; session: Session } | null;
   setCounts: Record<string, number>;
   allDone: boolean;
   onIncrement: (exercise: Exercise) => void;
@@ -1068,7 +1062,18 @@ function TodayView({
   onTaskToggle: (taskKey: string) => void;
   achievements: Achievement[];
 }) {
-  if (!session) return null;
+  if (!isTodayTraining || !session) {
+    return (
+      <div className="contentStack">
+        <section className="sessionHeader restDayHeader">
+          <div><p>Today</p><h2>Rest day.</h2><span>Recover, eat well, walk if you want, and come back ready to build.</span></div>
+          <div className="sessionReward"><ShieldCheck size={17} /><strong>RECOVER</strong></div>
+        </section>
+        <section className="trainerCard"><Activity size={20} /><div><strong>Rest is training</strong><p>No workout cards today. Sleep, hydrate, and let the muscle work you earned recover.</p><span>Tomorrow will show its own session when it arrives.</span></div></section>
+        <AchievementLocker achievements={achievements} />
+      </div>
+    );
+  }
 
   const sessionKey = isoDate(sessionDate);
   const obliquesRequired = session.key === "tuesday" || session.key === "friday";
@@ -1083,7 +1088,7 @@ function TodayView({
     <div className="contentStack">
       <section className="sessionHeader">
         <div>
-          <p>{isTodayTraining ? "Today's session" : `Rest day. Next: ${nextTraining?.date.toLocaleDateString(undefined, { weekday: "long" })}`}</p>
+          <p>Today's session</p>
           <h2>{session.title}</h2>
           <span>{session.intent}</span>
         </div>
@@ -1202,12 +1207,12 @@ function TodayView({
   );
 }
 
-function TaskRow({ taskKey, label, detail, done, disabled = false, onToggle }: { taskKey: string; label: string; detail: string; done: boolean; disabled?: boolean; onToggle: (taskKey: string) => void }) {
+function TaskRow({ taskKey, label, detail, done, disabled = false, rewardLabel = "+50", onToggle }: { taskKey: string; label: string; detail: string; done: boolean; disabled?: boolean; rewardLabel?: string; onToggle: (taskKey: string) => void }) {
   return (
     <button className={`taskRow ${done ? "done" : ""} ${disabled ? "disabled" : ""}`} disabled={disabled} onClick={() => onToggle(taskKey)}>
       <span className="taskCheck">{done && <Check size={15} />}</span>
       <span className="taskCopy"><strong>{label}</strong><small>{detail}</small></span>
-      <b>+50</b>
+      <b>{rewardLabel}</b>
     </button>
   );
 }
@@ -1237,56 +1242,6 @@ function ProgramView() {
   );
 }
 
-function CalendarView({ completedSessions, today }: { completedSessions: Record<string, string>; today: Date }) {
-  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-  const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-  const blanks = monthStart.getDay();
-  const cells: CalendarCell[] = [
-    ...Array.from({ length: blanks }, (_, index): CalendarCell => ({ blank: true, key: `blank-${index}` })),
-    ...Array.from({ length: daysInMonth }, (_, index) => {
-      const date = new Date(today.getFullYear(), today.getMonth(), index + 1);
-      const key = isoDate(date);
-      return {
-        blank: false,
-        key,
-        day: index + 1,
-        training: trainingDays.has(dayKeys[date.getDay()]),
-        done: Boolean(completedSessions[key]),
-        today: key === isoDate(today),
-      } satisfies CalendarCell;
-    }),
-  ];
-
-  return (
-    <div className="contentStack">
-      <section className="sectionTitle">
-        <p>Calendar</p>
-        <h2>{today.toLocaleDateString(undefined, { month: "long", year: "numeric" })}</h2>
-      </section>
-      <div className="calendarGrid labels">
-        {["S", "M", "T", "W", "T", "F", "S"].map((day) => <span key={day}>{day}</span>)}
-      </div>
-      <div className="calendarGrid">
-        {cells.map((cell) => (
-          <div
-            className={`calendarCell ${cell.blank ? "blank" : ""} ${"training" in cell && cell.training ? "training" : ""} ${"done" in cell && cell.done ? "done" : ""} ${"today" in cell && cell.today ? "today" : ""}`}
-            key={cell.key}
-          >
-            {"day" in cell ? cell.day : ""}
-          </div>
-        ))}
-      </div>
-      <section className="miniCard">
-        <div className="miniIcon"><Timer size={18} /></div>
-        <div>
-          <strong>Training days</strong>
-          <p>Monday, Tuesday, Thursday, and Friday are training days. Wednesday, Saturday, and Sunday are rest days.</p>
-        </div>
-      </section>
-    </div>
-  );
-}
-
 function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; taskProgress: Record<string, boolean>; onTaskToggle: (taskKey: string) => void }) {
   return (
     <div className="contentStack">
@@ -1307,38 +1262,54 @@ function FoodView({ todayKey, taskProgress, onTaskToggle }: { todayKey: string; 
       <section className="taskPanel foodTasks">
         <div className="taskPanelHeader"><div><p>Nutrition checklist</p><h3>Fuel the physique</h3></div><strong>+50 XP each</strong></div>
         <div className="taskCarousel">
-          {meals.map((meal) => {
+          {mealTasks.map((meal) => {
             const taskKey = `${todayKey}:food:${meal.name.toLowerCase()}`;
-            return <TaskRow key={taskKey} taskKey={taskKey} label={`Eat ${meal.name.toLowerCase()}`} detail={meal.macros} done={Boolean(taskProgress[taskKey])} onToggle={onTaskToggle} />;
+            return <TaskRow key={taskKey} taskKey={taskKey} label={`Did you eat ${meal.name.toLowerCase()}?`} detail={meal.detail} rewardLabel={`-${meal.damage} HP`} done={Boolean(taskProgress[taskKey])} onToggle={onTaskToggle} />;
           })}
           <TaskRow taskKey={`${todayKey}:food:water`} label="Hit your water target" detail="Aim for 2.5–3.5 L today, more in heat or hard cardio." done={Boolean(taskProgress[`${todayKey}:food:water`])} onToggle={onTaskToggle} />
         </div>
       </section>
-
-      {meals.map((meal) => (
-        <article className="foodCard" key={meal.name}>
-          <div className="foodTop">
-            <div>
-              <p>{meal.goal}</p>
-              <h3>{meal.name}</h3>
-            </div>
-            <Utensils size={20} />
-          </div>
-          <ul>
-            {meal.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <div className="loadLine">{meal.prep}</div>
-          <div className="macroLine">{meal.macros}</div>
-        </article>
-      ))}
 
       <section className="detailsBand">
         <h3>Coach notes</h3>
         {dailyFoodNotes.map((note) => (
           <p key={note}>{note}</p>
         ))}
+      </section>
+    </div>
+  );
+}
+
+function BeastBattle({ beast, hp, defeated, compact = false }: { beast: Beast; hp: number; defeated: number; compact?: boolean }) {
+  const hpPercent = Math.max(0, Math.min(100, (hp / beast.hp) * 100));
+  return (
+    <section className={`beastBattle ${compact ? "beastBattleCompact" : ""}`}>
+      <div className="beastBattleTop">
+        <div><p>Current beast · #{Number(beast.id.replace("beast-", ""))}</p><h3>{beast.emoji} {beast.name}</h3><span>{beast.difficulty} difficulty</span></div>
+        <strong>{hp.toLocaleString()} / {beast.hp.toLocaleString()} HP</strong>
+      </div>
+      <div className="beastHp"><span style={{ width: `${hpPercent}%` }} /></div>
+      {!compact && <p className="beastRule">Every completed set deals 25 damage. Stretching, jogging, meals, and session clears deal bigger hits. Defeat all 70.</p>}
+      <small>{defeated}/70 beasts defeated</small>
+    </section>
+  );
+}
+
+function BeastLocker({ progress }: { progress: BeastProgress }) {
+  const current = beasts[Math.min(progress.current, beasts.length - 1)];
+  return (
+    <div className="contentStack">
+      <section className="sectionTitle"><p>Beast locker</p><h2>Train. Eat. Hunt.</h2></section>
+      <BeastBattle beast={current} hp={progress.hp} defeated={progress.defeated.length} />
+      <section className="beastList">
+        <div className="achievementHeader"><div><p>Kill list</p><h3>Beasts defeated</h3></div><strong>{progress.defeated.length}/70</strong></div>
+        <div className="beastGrid">
+          {beasts.map((beast, index) => {
+            const killed = progress.defeated.includes(index);
+            const active = index === progress.current;
+            return <article className={`beastCard ${killed ? "killed" : ""} ${active ? "active" : ""}`} key={beast.id}><span>{killed ? beast.emoji : "🔒"}</span><div><strong>{killed ? beast.name : `Beast #${index + 1}`}</strong><small>{killed ? `${beast.difficulty} defeated` : `${beast.hp.toLocaleString()} HP`}</small></div></article>;
+          })}
+        </div>
       </section>
     </div>
   );

@@ -816,3 +816,33 @@ button { cursor: pointer; }
 .obliqueExercise ol { margin: 10px 0 0; color: var(--muted); font-size: .76rem; }
 .obliqueExercise .primaryButton, .obliqueExercise .ghostButton { margin-top: 12px; }
 .obliqueExercise.closed { border-color: #536b32; opacity: .8; }
+
+.beastBattle {
+  display: grid;
+  gap: 10px;
+  padding: 17px;
+  border: 1px solid #8a4934;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #321d19, #1d251b);
+  box-shadow: 0 14px 28px rgba(0,0,0,.18);
+}
+.beastBattleCompact { margin: 0 16px 14px; }
+.beastBattleTop { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.beastBattleTop p { margin: 0 0 4px; color: #ffb38a; font-size: .66rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.beastBattleTop h3 { margin: 0; color: var(--ink); font-size: 1.25rem; }
+.beastBattleTop span, .beastBattle small { color: var(--muted); font-size: .72rem; font-weight: 800; }
+.beastBattleTop > strong { color: #ff9c4a; font-size: .78rem; white-space: nowrap; }
+.beastHp { height: 11px; overflow: hidden; border-radius: 999px; background: #151713; }
+.beastHp span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff754a, #ffb04a); box-shadow: 0 0 15px rgba(255,117,74,.5); transition: width .25s ease; }
+.beastRule { margin: 0; color: var(--ink); font-size: .82rem; line-height: 1.45; }
+.beastList { overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+.beastGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+.beastCard { display: flex; align-items: center; gap: 9px; min-height: 64px; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-strong); }
+.beastCard.active { border-color: #ff9c4a; box-shadow: inset 0 0 0 1px rgba(255,156,74,.2); }
+.beastCard.killed { border-color: #536b32; background: #263620; }
+.beastCard > span { display: grid; place-items: center; width: 33px; height: 33px; flex: 0 0 auto; border-radius: 9px; background: #101512; font-size: 1.2rem; }
+.beastCard.killed > span { background: var(--acid); }
+.beastCard div { display: grid; min-width: 0; gap: 3px; }
+.beastCard strong { overflow: hidden; color: var(--ink); font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+.beastCard small { color: var(--muted); font-size: .62rem; }
+.restDayHeader { min-height: 148px; background: linear-gradient(135deg, #18201a, #253321); }
